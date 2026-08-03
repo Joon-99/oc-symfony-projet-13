@@ -2,29 +2,20 @@
 
 namespace App\Entity;
 
+use App\Entity\BaseEntity;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: '`users`')]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+#[ORM\Table(name: 'users')]
+class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
-
-    #[ORM\Column(length: 180)]
-    private ?string $email = null;
-
-    #[ORM\Column(length: 50)]
-    private ?string $firstName = null;
-
-    #[ORM\Column(length: 50)]
-    private ?string $lastName = null;
+    #[ORM\Column(length: 255, nullable: false, unique: true)]
+    private string $email;
 
     /**
      * @var list<string> The user roles
@@ -35,15 +26,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      */
-    #[ORM\Column]
-    private ?string $password = null;
+    #[ORM\Column(length: 255, nullable: false)]
+    private string $password;
 
-    public function getId(): ?int
+    #[ORM\Column(length: 50, nullable: false)]
+    private string $firstName;
+
+    #[ORM\Column(length: 50, nullable: false)]
+    private string $lastName;
+
+    #[ORM\OneToOne(mappedBy: 'owner', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private ?Cart $cart = null;
+
+    /**
+     * @var Collection<int, Order>
+     */
+    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'owner', orphanRemoval: true)]
+    private Collection $orders;
+
+    public function __construct()
     {
-        return $this->id;
+        parent::__construct();
+        $this->orders = new ArrayCollection();
     }
 
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -90,7 +97,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see PasswordAuthenticatedUserInterface
      */
-    public function getPassword(): ?string
+    public function getPassword(): string
     {
         return $this->password;
     }
@@ -111,5 +118,78 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $data["\0".self::class."\0password"] = hash('crc32c', $this->password);
 
         return $data;
+    }
+
+    public function getFirstName(): string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(string $firstName): static
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): static
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getCart(): ?Cart
+    {
+        return $this->cart;
+    }
+
+    public function setCart(?Cart $cart): static
+    {
+        if ($this->cart === $cart) {
+            return $this;
+        }
+
+        if ($this->cart instanceof Cart && $cart instanceof Cart) {
+            throw new \LogicException('Cannot set a new cart when the user already has one. Remove the existing cart first.');
+        }
+
+        $this->cart = $cart;
+
+        if ($cart instanceof Cart && $cart->getOwner() !== $this) {
+            $cart->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Order>
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Order $order): static
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders->add($order);
+            $order->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): static
+    {
+        $this->orders->removeElement($order);
+
+        return $this;
     }
 }
