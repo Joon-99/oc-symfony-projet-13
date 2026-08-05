@@ -2,14 +2,12 @@
 
 namespace App\Entity;
 
-use App\Entity\BaseEntity;
 use App\Repository\OrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;
-use DateTimeImmutable;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: 'orders')]
@@ -30,22 +28,22 @@ class Order extends BaseEntity
     private Collection $orderItems;
 
     #[ORM\Column(nullable: false)]
-    private DateTimeImmutable $orderDate;
+    private \DateTimeImmutable $orderDate;
 
     #[ORM\Column(nullable: true)]
-    private ?DateTimeImmutable $cancelDate = null;
+    private ?\DateTimeImmutable $cancelDate = null;
 
     #[ORM\Column(nullable: true)]
-    private ?DateTimeImmutable $shipmentDate = null;
+    private ?\DateTimeImmutable $shipmentDate = null;
 
     #[ORM\Column(nullable: true)]
-    private ?DateTimeImmutable $deliveryDate = null;
+    private ?\DateTimeImmutable $deliveryDate = null;
 
     public function __construct()
     {
         parent::__construct();
         $this->orderItems = new ArrayCollection();
-        $this->orderDate = new DateTimeImmutable("now");
+        $this->orderDate = new \DateTimeImmutable('now');
     }
 
     public function getTotalAmount(): ?string
@@ -97,48 +95,48 @@ class Order extends BaseEntity
         return $this;
     }
 
-    public function getOrderDate(): ?DateTimeImmutable
+    public function getOrderDate(): ?\DateTimeImmutable
     {
         return $this->orderDate;
     }
 
-    public function setOrderDate(DateTimeImmutable $orderDate): static
+    public function setOrderDate(\DateTimeImmutable $orderDate): static
     {
         $this->orderDate = $orderDate;
 
         return $this;
     }
 
-    public function getCancelDate(): ?DateTimeImmutable
+    public function getCancelDate(): ?\DateTimeImmutable
     {
         return $this->cancelDate;
     }
 
-    public function setCancelDate(?DateTimeImmutable $cancelDate): static
+    public function setCancelDate(?\DateTimeImmutable $cancelDate): static
     {
         $this->cancelDate = $cancelDate;
 
         return $this;
     }
 
-    public function getShipmentDate(): ?DateTimeImmutable
+    public function getShipmentDate(): ?\DateTimeImmutable
     {
         return $this->shipmentDate;
     }
 
-    public function setShipmentDate(?DateTimeImmutable $shipmentDate): static
+    public function setShipmentDate(?\DateTimeImmutable $shipmentDate): static
     {
         $this->shipmentDate = $shipmentDate;
 
         return $this;
     }
 
-    public function getDeliveryDate(): ?DateTimeImmutable
+    public function getDeliveryDate(): ?\DateTimeImmutable
     {
         return $this->deliveryDate;
     }
 
-    public function setDeliveryDate(?DateTimeImmutable $deliveryDate): static
+    public function setDeliveryDate(?\DateTimeImmutable $deliveryDate): static
     {
         $this->deliveryDate = $deliveryDate;
 

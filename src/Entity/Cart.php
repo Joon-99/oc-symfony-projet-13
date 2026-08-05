@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Entity\BaseEntity;
 use App\Repository\CartRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -41,15 +40,14 @@ class Cart extends BaseEntity
         if ($owner->getCart() instanceof Cart && $owner->getCart() !== $this) {
             throw new \LogicException('Cannot set a new owner when the user already has a cart. Remove the existing cart from the user first.');
         }
-    
+
         if (isset($this->owner)) {
             if ($this->owner === $owner) {
                 return $this;
-            } else {
-                throw new \LogicException('Cannot change the owner of the cart. Remove the existing cart from the user first.');
             }
+            throw new \LogicException('Cannot change the owner of the cart. Remove the existing cart from the user first.');
         }
-        
+
         $this->owner = $owner;
         if ($owner->getCart() !== $this) {
             $owner->setCart($this);

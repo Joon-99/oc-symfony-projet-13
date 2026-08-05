@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Entity\BaseEntity;
 use App\Repository\CartItemRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;

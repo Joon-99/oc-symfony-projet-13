@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use DateTimeImmutable;
-use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -20,10 +18,10 @@ abstract class BaseEntity
     private bool $valid = true;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
-    private DateTimeInterface $createdAt;
+    private \DateTimeInterface $createdAt;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
-    private ?DateTimeInterface $modifiedAt = null;
+    private ?\DateTimeInterface $modifiedAt = null;
 
     public function __construct()
     {
@@ -47,24 +45,24 @@ abstract class BaseEntity
         return $this;
     }
 
-    public function getCreatedAt(): DateTimeInterface
+    public function getCreatedAt(): \DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeInterface $createdAt): static
+    public function setCreatedAt(\DateTimeInterface $createdAt): static
     {
         $this->createdAt = $this->toDateTimeImmutable($createdAt);
 
         return $this;
     }
 
-    public function getModifiedAt(): ?DateTimeInterface
+    public function getModifiedAt(): ?\DateTimeInterface
     {
         return $this->modifiedAt;
     }
 
-    public function setModifiedAt(?DateTimeInterface $modifiedAt): static
+    public function setModifiedAt(?\DateTimeInterface $modifiedAt): static
     {
         $this->modifiedAt = $modifiedAt ? $this->toDateTimeImmutable($modifiedAt) : null;
 
@@ -74,23 +72,23 @@ abstract class BaseEntity
     #[ORM\PrePersist]
     public function initializeCreatedAt(): void
     {
-        if (!isset($this->createdAt) || $this->createdAt === null) {
-            $this->createdAt = new DateTimeImmutable("now");
+        if (!isset($this->createdAt) || null === $this->createdAt) {
+            $this->createdAt = new \DateTimeImmutable('now');
         }
     }
 
     #[ORM\PreUpdate]
     public function updateModifiedAt(): void
     {
-        $this->modifiedAt = new DateTimeImmutable("now");
+        $this->modifiedAt = new \DateTimeImmutable('now');
     }
 
-    private function toDateTimeImmutable(DateTimeInterface $dateTime): DateTimeImmutable
+    private function toDateTimeImmutable(\DateTimeInterface $dateTime): \DateTimeImmutable
     {
-        if ($dateTime instanceof DateTimeImmutable) {
+        if ($dateTime instanceof \DateTimeImmutable) {
             return $dateTime;
         }
 
-        return DateTimeImmutable::createFromMutable($dateTime);
+        return \DateTimeImmutable::createFromMutable($dateTime);
     }
 }

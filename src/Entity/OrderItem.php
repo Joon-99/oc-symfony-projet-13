@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Entity\BaseEntity;
 use App\Repository\OrderItemRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,7 +16,7 @@ class OrderItem extends BaseEntity
     private int $quantity = 0;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: false)]
-    private string $unitAmount = "0.00";
+    private string $unitAmount = '0.00';
 
     #[ORM\ManyToOne(inversedBy: 'orderItems')]
     #[ORM\JoinColumn(nullable: false)]

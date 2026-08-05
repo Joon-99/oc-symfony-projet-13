@@ -174,7 +174,7 @@ class AppFixtures extends Fixture
     }
 
     /**
-     * @param list<User> $regularUsers
+     * @param list<User>    $regularUsers
      * @param list<Product> $products
      */
     private function createCartsForUsers(ObjectManager $manager, array $regularUsers, array $products): void
@@ -200,7 +200,7 @@ class AppFixtures extends Fixture
     }
 
     /**
-     * @param list<User> $regularUsers
+     * @param list<User>    $regularUsers
      * @param list<Product> $products
      */
     private function createOrdersForUsers(ObjectManager $manager, array $regularUsers, array $products): void
@@ -208,7 +208,7 @@ class AppFixtures extends Fixture
         $frequentBuyer = $regularUsers[0];
         $frequentBuyerOrderCount = $this->randomizer->getInt(2, 3);
 
-        for ($i = 0; $i < $frequentBuyerOrderCount; $i++) {
+        for ($i = 0; $i < $frequentBuyerOrderCount; ++$i) {
             $this->createOrderForUser($manager, $frequentBuyer, $products);
         }
 
@@ -256,6 +256,7 @@ class AppFixtures extends Fixture
 
     /**
      * @param array<mixed> $items
+     *
      * @return list<int>
      */
     private function pickRandomKeys(array $items, int $count): array
