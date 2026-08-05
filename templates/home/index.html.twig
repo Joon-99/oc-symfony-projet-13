@@ -22,4 +22,45 @@
         <h2 class="products-section-title semi-bold-text uppercase">Nos produits</h2>
         {% include 'product/product_grid.html.twig' with {'products': products} %}
     </section>
+    <section class="conviction-section split-thirds">
+        <div class="conviction-text-container">
+            <h2 class="conviction-text-title semi-bold-text text-xxl uppercase">Notre conviction</h2>
+            <div class="conviction-text">
+                <p>
+                    Chez GreenGoodies, nous croyons en un monde où le commerce peut être synonyme de 
+                    bien-être pour la planète et ses habitants. Notre mission est de vous proposer 
+                    une sélection rigoureuse de produits qui allient qualité, durabilité et éthique
+                </p>
+            </div>
+        </div>
+        <div class="third-box-placeholder">
+        </div>
+        <div class="conviction-image-container">
+            <img src="{{ asset('images/orange-flowers.jpg') }}" alt="Orange flowers">
+        </div>
+    </section>
+    <section class="values-section split-thirds">
+        <div class="values-image-container">
+            <img src="{{ asset('images/green-plastic-bags.jpg') }}" alt="Green plastic bags">
+        </div>
+        <div class="third-box-placeholder">
+        </div>
+        <div class="values-text-container">
+            <h2 class="values-text-title semi-bold-text text-xxl uppercase">Nos valeurs</h2>
+            <div class="values-text">
+                <p>
+                    Durabilité : Nous sélectionnons soigneusement des produits qui respectent 
+                    l'environnement et favorisent la durabilité.
+                </p>
+                <p>
+                    Éthique : Nous nous engageons à travailler avec des partenaires et des fournisseurs 
+                    qui partagent nos valeurs éthiques.
+                </p>
+                <p>
+                    Écologie : Nous encourageons des pratiques respectueuses de l'écosystème et 
+                    privilégions les matériaux écologiques.
+                </p>
+            </div>
+        </div>
+    </section>
 {% endblock %}

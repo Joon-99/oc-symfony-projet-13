@@ -31,4 +31,5 @@
 ###> personnal ignores ###
 /compose.override.yaml
 /format-php-twig.sh
+/TODO.md
 ###< personnal ignores ###
