@@ -3,18 +3,23 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/joon/projects/oc/13-e-commerce/src/Controller/TestController.php</code></li>
-        <li>Your template at <code>/home/joon/projects/oc/13-e-commerce/templates/test/index.html.twig</code></li>
-    </ul>
-</div>
+    <section class="duo-box welcome-section">
+        <div class="duo-box-left welcome-text-container">
+            <h1 class="welcome-text-title semi-bold-text text-4xl">Bienvenue</h1>
+            <div class="welcome-text thin-text text-xl">
+                <p>
+                    Découvrez notre univers de produits durables et éthiques pour une consommation responsable
+                </p>
+                <p>
+                    Retrouvez des articles d'hygiène &amp; beauté, des accessoires &amp; boissons et du prêt à porter
+                </p>
+            </div>
+        </div>
+        <div class="duo-box-right welcome-image-container">
+        </div>
+    </section>
+    <section class="products-section">
+        <h2 class="products-section-title semi-bold-text uppercase">Nos produits</h2>
+        {% include 'product/product_grid.html.twig' with {'products': products} %}
+    </section>
 {% endblock %}

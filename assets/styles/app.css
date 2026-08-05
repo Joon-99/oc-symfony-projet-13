@@ -1,6 +1,116 @@
 @import './base.css';
 
-/* Header */
+
+/* HOME */
+
+.welcome-section {
+    background-color: var(--soft-sage);
+    height: 750px;
+    width: 100%;
+}
+
+.welcome-text-container {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    align-items: start;
+    text-align: left;
+    padding: 240px 173px;
+    gap: 38px;
+}
+
+.welcome-text-title {
+    margin: 0;
+    line-height: 100%;
+}
+
+.welcome-text {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    line-height: 100%;
+    gap: 1em;
+}
+
+.welcome-text p {
+    margin: 0;
+    line-height: 100%;
+}
+
+.welcome-image-container {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background-image: url('../images/less-new-less-co2.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.products-section-title {
+    font-size: inherit;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    margin-left: 100px;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0px;
+}
+
+.products-section .product-grid .product-img img {
+    width: 100%;
+    height: 475px;
+    object-fit: cover;
+}
+
+.products-section .product-grid .product-info {
+    height: 218px;
+    box-sizing: border-box;
+    padding-top: 40px;
+}
+
+/* PRODUCT CARD */
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+}
+
+.product-info p {
+    margin: 0;
+}
+
+.product-info-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 77px;
+    transition: background-color 300ms ease-out, color 300ms ease-out;
+}
+
+.product-info-btn:hover {
+    background-color: var(--light-black-color);
+    color: var(--ivory-color);
+    cursor: pointer;
+}
+
+.product-info-text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.product-info p {
+    line-height: 120%;
+}
+
+
+/* HEADER */
 
 .header-container {
     background-color: var(--ivory-color);
@@ -36,7 +146,7 @@
 }
 
 
-/* Footer */
+/* FOOTER */
 
 .footer-container {
     background-color: var(--white-color);

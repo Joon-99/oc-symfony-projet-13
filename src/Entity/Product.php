@@ -67,12 +67,12 @@ class Product extends BaseEntity
         return $this;
     }
 
-    public function getPicture(): ?string
+    public function getPicturePath(): ?string
     {
         return $this->picturePath;
     }
 
-    public function setPicture(?string $picture): static
+    public function setPicturePath(?string $picture): static
     {
         $this->picturePath = $picture;
 

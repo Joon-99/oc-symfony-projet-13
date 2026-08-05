@@ -1,0 +1,13 @@
+<div class="product-card">
+    <div class="product-img">
+        <img src="{{ asset(product.picturePath) }}" alt="Picture of the product: {{ product.name }}">
+    </div>
+    <div class="product-info">
+        <div class="product-info-text">
+            <p class="product-name text-l black-text bold-text">{{ product.name }}</p>
+            <p class="product-short-description grey-text">{{ product.shortDescription }}</p>
+        </div>
+        <p class="product-info-price">{{ product.price|number_format(2, '.', ',') }} €</p>
+        <a class="product-info-btn" href="{{ path('app_product', {'id': product.id}) }}">Voir le produit</a>
+    </div>
+</div>

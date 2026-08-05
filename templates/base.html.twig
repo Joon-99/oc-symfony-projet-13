@@ -20,7 +20,9 @@
         {% block header %}
             {% include 'header/header.html.twig' %}
         {% endblock %}
-        {% block content %}{% endblock %}
+        <main class="content">
+            {% block content %}{% endblock %}
+        </main>
         {% block footer %}
             {% include 'footer/footer.html.twig' %}
         {% endblock %}
