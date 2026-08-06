@@ -15,4 +15,19 @@ final class LoginController extends AbstractController
             'controller_name' => 'LoginController',
         ]);
     }
+
+    #[Route('/logout', name: 'app_logout')]
+    public function logout(): void
+    {
+        // Controller can be blank: it will be intercepted by the logout key on your firewall.
+    }
+
+    #[Route('/register', name: 'app_register')]
+    public function register(): Response
+    {
+        return $this->render('login/register.html.twig', [
+            'controller_name' => 'LoginController',
+        ]);
+    }
 }
+
