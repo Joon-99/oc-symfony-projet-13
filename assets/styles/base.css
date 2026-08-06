@@ -146,3 +146,37 @@ li {
     background-color: var(--black-color);
     color: var(--white-color);
 }
+
+.flash-success,
+.flash-error,
+.flash-warning,
+.flash-info {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 16px;
+    border: 1px solid transparent;
+}
+
+.flash-success {
+    color: #135a36;
+    background-color: #e7f6ee;
+    border-color: #bfe7cf;
+}
+
+.flash-error {
+    color: #7f1d1d;
+    background-color: #fdecec;
+    border-color: #f5c2c2;
+}
+
+.flash-warning {
+    color: #7a4f01;
+    background-color: #fff6dd;
+    border-color: #f0ddb0;
+}
+
+.flash-info {
+    color: #0f4d73;
+    background-color: #e8f3fb;
+    border-color: #bddcf0;
+}

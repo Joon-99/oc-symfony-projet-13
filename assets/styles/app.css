@@ -246,7 +246,7 @@
 /* Adds a pseudo-element to each link of the header to avoid each hover affecting the other links */
 .nav-links a::after {
     content: attr(data-text);
-    font-weight: 500;
+    font-weight: 600;
     visibility: hidden;
     display: block;
     height: 0;
@@ -254,7 +254,7 @@
 }
 
 .nav-links a:hover {
-    font-weight: 500;
+    font-weight: 600;
 }
 
 
