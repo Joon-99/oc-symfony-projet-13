@@ -25,6 +25,13 @@ body {
     background-color: var(--white-color);
 }
 
+button {
+    border: none;
+    padding: 0;
+    font-size: 14px;
+    font: inherit;                 /* covers style/variant/weight/stretch/size/line-height/family */
+}
+
 a {
     font-family: inherit;
     font-size: inherit;
@@ -140,11 +147,19 @@ li {
     transition: background-color 300ms ease-out;
     height: 77px;
     font-weight: 400;
+    line-height: 120%;
 }
 
 .cta-grey-button:hover {
     background-color: var(--black-color);
     color: var(--white-color);
+}
+
+button.cta-grey-button {
+    -webkit-appearance: none;
+    appearance: none;
+    border: 0;
+    border-radius: 0;
 }
 
 .flash-success,
@@ -179,4 +194,25 @@ li {
     color: #0f4d73;
     background-color: #e8f3fb;
     border-color: #bddcf0;
+}
+
+.common-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+}
+
+.common-form label {
+    margin-bottom: 10px;
+    line-height: 120%;
+}
+
+.common-form input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 67px;
+    padding: 8px;
+    border: 1px solid var(--grey-color);
+    margin-bottom: 30px;
+    background-color: var(--ivory-color);
 }

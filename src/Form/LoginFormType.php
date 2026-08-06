@@ -29,6 +29,9 @@ class LoginFormType extends AbstractType
     {
         $resolver->setDefaults([
             'csrf_token_id' => 'authenticate',
+            'attr' => [
+                'class' => 'common-form',
+            ],
         ]);
     }
 }

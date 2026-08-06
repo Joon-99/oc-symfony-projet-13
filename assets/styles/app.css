@@ -222,6 +222,58 @@
     line-height: 120%;
 }
 
+/* LOGIN */
+
+.login-section {
+    display: flex;
+    height: 988px;
+}
+
+.login-image-container {
+    flex: 0 0 51%;
+    box-sizing: border-box;
+}
+
+.login-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.login-form-container {
+    flex: 0 0 49%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    padding-left: 100px;
+    padding-right: 127px;
+}
+
+.login-form-container h2 {
+    line-height: 120%;
+    margin-top: 80px;
+    margin-bottom: 40px;
+}
+
+.login-form-container button {
+    margin-bottom: 30px;
+}
+
+.login-form-container a {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 120%;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.login-form-container .flash-error {
+    margin-bottom: 30px;
+}
+
+
 /* HEADER */
 
 .header-container {

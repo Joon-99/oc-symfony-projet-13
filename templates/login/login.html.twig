@@ -3,18 +3,30 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<h1>Login</h1>
-
-{% if error %}
-    <div class="flash-error">
-        {# symfony-dev-tools:mark-used security:* #}
-        {{ error.messageKey|trans(error.messageData, 'security') }}
+<section class="login-section">
+    <div class="login-image-container">
+        <img src="{{ asset('images/orange-flowers.jpg') }}" alt="Orange flowers" />
     </div>
-{% endif %}
+    <div class="login-form-container">
+        <h2 class="semi-bold-text text-xxl">Connexion</h2>
+        {% if error %}
+            <div class="flash-error">
+                {# symfony-dev-tools:mark-used security:* #}
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+        {% endif %}
 
-{{ form_start(loginForm) }}
-    {{ form_row(loginForm.email) }}
-    {{ form_row(loginForm.plainPassword) }}
-    <button type="submit">Se connecter</button>
-{{ form_end(loginForm) }}
+        {{ form_start(loginForm) }}
+            {{ form_errors(loginForm.email) }}
+            {{ form_label(loginForm.email, null, {'label_attr': {'class': 'grey-text'}}) }}
+            {{ form_widget(loginForm.email) }}
+            {{ form_errors(loginForm.plainPassword) }}
+            {{ form_label(loginForm.plainPassword, null, {'label_attr': {'class': 'grey-text'}}) }}
+            {{ form_widget(loginForm.plainPassword) }}
+            <button type="submit" class="cta-grey-button">Se connecter</button>
+        {{ form_end(loginForm) }}
+
+        <a href="{{ path('app_register') }}" class="grey-text">Pas encore de compte ? S'inscrire</a>
+    </div>
+</section>
 {% endblock %}
