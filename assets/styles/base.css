@@ -5,6 +5,7 @@
     --soft-sage-color: #e8f0e3;
     --sand-color: #ebe3d3;
     --grey-color: #666666;
+    --stone-grey-color: #565656;
     --light-black-color: #333333;
     --black-color: #000000;
 }
@@ -60,6 +61,10 @@ li {
 
 .grey-text {
     color: var(--grey-color);
+}
+
+.text-xs {
+    font-size: 10px;
 }
 
 .text-s {
@@ -123,4 +128,21 @@ li {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 0px;
+}
+
+.cta-grey-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--stone-grey-color);
+    color: var(--white-color);
+    cursor: pointer;
+    transition: background-color 300ms ease-out;
+    height: 77px;
+    font-weight: 400;
+}
+
+.cta-grey-button:hover {
+    background-color: var(--black-color);
+    color: var(--white-color);
 }

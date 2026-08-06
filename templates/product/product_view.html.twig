@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Product - {{ product.name }}{% endblock %}
+
+{% block content %}
+    <section class="product-view-section">
+        <div class="product-view-image-container">
+            <img src="{{ asset(product.picturePath) }}" alt="Picture of {{ product.name }}">
+        </div>
+        <div class="product-view-info-container">
+            <h1 class="product-view-name semi-bold-text text-xxl">{{ product.name }}</h1>
+            <p class="product-view-price thin-text text-3xl">{{ product.price | replace({"." : ","}) }}€</p>
+            <p class="product-view-label text-xs grey-text">Description</p>
+            <p class="product-view-long-description grey-text">{{ product.longDescription|nl2br }}</p>
+            <a href="{{ path('app_cart_add', {'id': product.id}) }}" class="product-view-button cta-grey-button">Ajouter au panier</a>
+        </div>
+    </section>
+{% endblock %}
