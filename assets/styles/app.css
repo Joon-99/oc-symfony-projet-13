@@ -21,7 +21,7 @@
 
 .welcome-text-title {
     margin: 0;
-    line-height: 100%;
+    line-height: 120%;
 }
 
 .welcome-text {
@@ -34,7 +34,7 @@
 
 .welcome-text p {
     margin: 0;
-    line-height: 100%;
+    line-height: 120%;
 }
 
 .welcome-image-container {
@@ -179,7 +179,7 @@
 .nav-links {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 53px;
     margin: 0;
     padding: 0;
 }
@@ -201,12 +201,20 @@
 
 /* FOOTER */
 
+footer {
+    height: 80px;
+    box-sizing: border-box;
+}
+
 .footer-container {
     background-color: var(--white-color);
     padding-right: 90px;
-    height: 80px;
+    padding-top: 32px;
+    padding-bottom: 32px;
 }
 
 .footer-container p {
     text-align: right;
+    margin: 0;
+    line-height: 120%;
 }
