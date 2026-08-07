@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class ProductController extends AbstractController
 {
-    #[Route('/product/{id}', name: 'app_product')]
+    #[Route('/product/{product}', name: 'app_product')]
     public function index(Product $product): Response
     {
         return $this->render('product/product_view.html.twig', [

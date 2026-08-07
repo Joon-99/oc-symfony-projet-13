@@ -8,6 +8,6 @@
             <p class="product-short-description grey-text">{{ product.shortDescription }}</p>
         </div>
         <p class="product-info-price">{{ product.price|number_format(2, '.', ',') }} €</p>
-        <a class="product-info-btn" href="{{ path('app_product', {'id': product.id}) }}">Voir le produit</a>
+        <a class="product-info-btn" href="{{ path('app_product', {'product': product.id}) }}">Voir le produit</a>
     </div>
 </div>

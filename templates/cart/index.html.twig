@@ -3,18 +3,18 @@
 {% block title %}Hello CartController!{% endblock %}
 
 {% block content %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/joon/projects/oc/13-e-commerce/src/Controller/CartController.php</code></li>
-        <li>Your template at <code>/home/joon/projects/oc/13-e-commerce/templates/cart/index.html.twig</code></li>
-    </ul>
-</div>
+<section class="cart-section">
+    <h1 class="semi-bold-text text-xxl">Panier</h1>
+    {% if cartItems is empty %}
+        <p class="grey-text text-s">Votre panier est vide.</p>
+    {% else %}
+        <ul class="cart-items">
+            {% for item in cartItems %}
+                <li class="cart-item">
+                    {{ item.product.name }} - {{ item.quantity }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</section>
 {% endblock %}

@@ -22,11 +22,14 @@ class CartItem extends BaseEntity
     #[ORM\JoinColumn(nullable: true)]
     private ?Product $product = null;
 
-    public function __construct(Cart $cart, int $quantity)
+    public function __construct(Cart $cart, int $quantity, ?Product $product = null)
     {
         parent::__construct();
         $this->setCart($cart);
         $this->setQuantity($quantity);
+        if ($product) {
+            $this->setProduct($product);
+        }
     }
 
     public function getQuantity(): int
