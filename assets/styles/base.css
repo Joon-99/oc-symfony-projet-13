@@ -202,9 +202,34 @@ button.cta-grey-button {
     gap: 0px;
 }
 
-.common-form label {
+.common-form label, .common-form div label {
     margin-bottom: 10px;
     line-height: 120%;
+}
+
+.common-form div label { /* for inner labels, e.g. repeated fields */
+    display: block;
+}
+
+.common-form .checkbox-container {
+    display: flex;
+    gap: 7px;
+    align-items: center;
+}
+
+.common-form .checkbox-container input[type='checkbox'] {
+    appearance: none;
+    -webkit-appearance: none;
+    margin: 0;
+    background-color: var(--ivory-color);
+    height: 20px;
+    width: 20px;
+    border: 1px solid var(--grey-color);
+    box-sizing: border-box;
+}
+
+.common-form .checkbox-container input[type='checkbox'] + label {
+    margin-bottom: 0;
 }
 
 .common-form input {

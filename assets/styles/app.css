@@ -260,7 +260,7 @@
     margin-bottom: 30px;
 }
 
-.login-form-container a {
+.login-form-container a, .register-form-container a {
     display: inline-block;
     margin-left: auto;
     margin-right: auto;
@@ -271,6 +271,55 @@
 
 .login-form-container .flash-error {
     margin-bottom: 30px;
+}
+
+
+/* REGISTER */
+
+.register-section {
+    display: flex;
+    height: 1104px;
+}
+
+.register-image-container {
+    flex: 0 0 51%;
+    box-sizing: border-box;
+}
+
+.register-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.register-form-container {
+    flex: 0 0 49%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    padding-left: 115px;
+    padding-right: 115px;
+}
+
+.register-form-container h2 {
+    margin-top: 80px;
+    margin-bottom: 10px;
+    line-height: 120%;
+}
+
+.register-form-note {
+    margin-top: 0px;
+    margin-bottom: 24px;
+    line-height: 120%;
+}
+
+.register-form-container button {
+    margin-bottom: 30px;
+}
+
+.register-form-container .checkbox-container {
+    margin-bottom: 48px;
 }
 
 

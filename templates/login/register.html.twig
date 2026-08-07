@@ -3,17 +3,43 @@
 {% block title %}Register{% endblock %}
 
 {% block content %}
-    <h1>Register</h1>
+    <section class="register-section">
+        <div class="register-image-container">
+            <img src="{{ asset('images/dark-green-leaves.jpg') }}" alt="Dark Green Leaves">
+        </div>
+        <div class="register-form-container">
+            <h2 class="semi-bold-text text-xxl">Inscription</h2>
+            <p class="register-form-note grey-text text-s">Tous les champs sont obligatoires.</p>
+            {{ form_errors(registrationForm) }}
 
-    {{ form_errors(registrationForm) }}
+            {{ form_start(registrationForm) }}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.firstName) }}
-        {{ form_row(registrationForm.lastName) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+                {{ form_errors(registrationForm.lastName) }}
+                {{ form_label(registrationForm.lastName, null, {'label_attr': {'class': 'grey-text'}}) }}
+                {{ form_widget(registrationForm.lastName) }}
 
-        <button type="submit" class="btn">S'inscrire</button>
-    {{ form_end(registrationForm) }}
+                {{ form_errors(registrationForm.firstName) }}
+                {{ form_label(registrationForm.firstName, null, {'label_attr': {'class': 'grey-text'}}) }}
+                {{ form_widget(registrationForm.firstName) }}
+
+                {{ form_errors(registrationForm.email) }}
+                {{ form_label(registrationForm.email, null, {'label_attr': {'class': 'grey-text'}}) }}
+                {{ form_widget(registrationForm.email) }}
+
+                {{ form_errors(registrationForm.plainPassword) }}
+                {{ form_row(registrationForm.plainPassword.first, {'label_attr': {'class': 'grey-text'}}) }}
+                {{ form_row(registrationForm.plainPassword.second, {'label_attr': {'class': 'grey-text'}}) }}
+
+                {{ form_errors(registrationForm.agreeTerms) }}
+                <div class="checkbox-container">
+                    {{ form_widget(registrationForm.agreeTerms) }}
+                    {{ form_label(registrationForm.agreeTerms, null, {'label_attr': {'class': 'grey-text'}}) }}
+                </div>
+
+                <button type="submit" class="cta-grey-button">S'inscrire</button>
+            {{ form_end(registrationForm) }}
+            <a href="{{ path('app_login') }}" class="grey-text">Déjà un compte ? Se connecter</a>
+        </div>
+    </section>
+
 {% endblock %}
