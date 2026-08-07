@@ -14,6 +14,80 @@
     background-color: var(--ivory-color);
 }
 
+.error-page {
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    background-color: var(--ivory-color);
+}
+
+.error-page-card {
+    max-width: 640px;
+    text-align: center;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--white-color);
+    border: 1px solid var(--sand-color);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+}
+
+.error-page-card .error-page-code {
+    font-size: 4rem;
+    font-weight: 600;
+    color: var(--light-black-color);
+    margin: 0;
+    line-height: 1;
+}
+
+.error-page-title {
+    font-size: 1.75rem;
+    margin: 1.25rem 0 0;
+    color: var(--light-black-color);
+}
+
+.error-page-message {
+    margin: 2rem 0 2rem;
+    color: var(--grey-color);
+    line-height: 1.6;
+}
+
+.error-page-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.error-page-actions .cta-grey-button {
+    height: auto;
+    padding: 0.75rem 1.25rem;
+    border-radius: 4px;
+}
+
+.error-page-debug {
+    margin-top: 2rem;
+    padding: 1rem;
+    border: 1px solid var(--sand-color);
+    border-radius: 6px;
+    background: var(--off-white-color);
+    text-align: left;
+}
+
+.error-page-debug h3 {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+}
+
+.error-page-debug p {
+    margin: 0.25rem 0;
+    font-size: 0.95rem;
+    word-break: break-word;
+}
+
 body {
     margin: 0;
     padding: 0;

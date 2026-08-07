@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if status_code == 404 %}
+        {{ 'error.title_not_found'|trans({}, 'messages') }}
+    {% elseif status_code == 403 %}
+        {{ 'error.title_forbidden'|trans({}, 'messages') }}
+    {% elseif status_code == 500 %}
+        {{ 'error.title_server_error'|trans({}, 'messages') }}
+    {% else %}
+        {{ 'error.title_default'|trans({}, 'messages') }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="error-page">
+        <div class="error-page-card">
+            <h1 class="error-page-code">{{ status_code }}</h1>
+
+            <h2 class="error-page-title">
+                {% if status_code == 404 %}
+                    {{ 'error.title_not_found'|trans({}, 'messages') }}
+                {% elseif status_code == 403 %}
+                    {{ 'error.title_forbidden'|trans({}, 'messages') }}
+                {% elseif status_code == 500 %}
+                    {{ 'error.title_server_error'|trans({}, 'messages') }}
+                {% else %}
+                    {{ 'error.title_default'|trans({}, 'messages') }}
+                {% endif %}
+            </h2>
+
+            <p class="error-page-message">
+                {% if status_code == 404 %}
+                    {{ 'error.message_not_found'|trans({}, 'messages') }}
+                {% elseif status_code == 403 %}
+                    {{ 'error.message_forbidden'|trans({}, 'messages') }}
+                {% elseif status_code == 500 %}
+                    {{ 'error.message_server_error'|trans({}, 'messages') }}
+                {% else %}
+                    {{ 'error.message_default'|trans({}, 'messages') }}
+                {% endif %}
+            </p>
+
+            <div class="error-page-actions">
+                <a href="{{ path('app_home') }}" class="cta-grey-button">
+                    {{ 'error.go_home'|trans({}, 'messages') }}
+                </a>
+                <button type="button" class="cta-grey-button" onclick="window.history.back();">
+                    {{ 'error.go_back'|trans({}, 'messages') }}
+                </button>
+            </div>
+
+            {% if app.debug and exception is defined %}
+                <div class="error-page-debug">
+                    <h3>{{ 'error.debug_title'|trans({}, 'messages') }}</h3>
+                    <p><strong>{{ 'error.debug_exception'|trans({}, 'messages') }} :</strong> {{ exception.class|default(exception.getTrace()[0].class|default('error.unknown'|trans({}, 'messages'))) }}</p>
+                    <p><strong>{{ 'error.debug_message'|trans({}, 'messages') }} :</strong> {{ exception.message }}</p>
+                    <p><strong>{{ 'error.debug_file'|trans({}, 'messages') }} :</strong> {{ exception.file }}:{{ exception.line }}</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
