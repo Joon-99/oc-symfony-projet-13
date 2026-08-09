@@ -28,8 +28,10 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
+        /** @var non-empty-list<Product> $products */
         $products = $this->createProducts($manager);
 
+        /** @var non-empty-list<User> $regularUsers */
         [$adminUser, $regularUsers] = $this->createUsers($manager);
 
         $this->createCartsForUsers($manager, $regularUsers, $products);
@@ -179,8 +181,8 @@ class AppFixtures extends Fixture
     }
 
     /**
-     * @param list<User>    $regularUsers
-     * @param list<Product> $products
+     * @param non-empty-list<User>    $regularUsers
+     * @param non-empty-list<Product> $products
      */
     private function createCartsForUsers(ObjectManager $manager, array $regularUsers, array $products): void
     {
@@ -190,6 +192,7 @@ class AppFixtures extends Fixture
             $user = $regularUsers[$index];
             $cart = new Cart($user);
 
+            /** @var int<2, 5> $itemsCount */
             $itemsCount = $this->randomizer->getInt(2, 5);
             $productIndexes = $this->pickRandomKeys($products, $itemsCount);
 
@@ -205,8 +208,8 @@ class AppFixtures extends Fixture
     }
 
     /**
-     * @param list<User>    $regularUsers
-     * @param list<Product> $products
+     * @param non-empty-list<User>    $regularUsers
+     * @param non-empty-list<Product> $products
      */
     private function createOrdersForUsers(ObjectManager $manager, array $regularUsers, array $products): void
     {
@@ -217,7 +220,9 @@ class AppFixtures extends Fixture
             $this->createOrderForUser($manager, $frequentBuyer, $products);
         }
 
+        /** @var non-empty-list<User> $extraOrderCandidates */
         $extraOrderCandidates = array_slice($regularUsers, 1);
+        /** @var int<1, 2> $extraBuyerCount */
         $extraBuyerCount = $this->randomizer->getInt(1, 2);
         $extraBuyerIndexes = $this->pickRandomKeys($extraOrderCandidates, $extraBuyerCount);
 
@@ -228,13 +233,14 @@ class AppFixtures extends Fixture
     }
 
     /**
-     * @param list<Product> $products
+     * @param non-empty-list<Product> $products
      */
     private function createOrderForUser(ObjectManager $manager, User $user, array $products): void
     {
         $order = (new Order())
             ->setOwner($user);
 
+        /** @var int<1, 4> $itemsCount */
         $itemsCount = $this->randomizer->getInt(1, 4);
         $productIndexes = $this->pickRandomKeys($products, $itemsCount);
 
@@ -260,7 +266,8 @@ class AppFixtures extends Fixture
     }
 
     /**
-     * @param array<mixed> $items
+     * @param non-empty-array<mixed> $items
+     * @param int<1, max> $count
      *
      * @return list<int>
      */

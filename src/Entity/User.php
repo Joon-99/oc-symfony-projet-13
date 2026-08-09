@@ -8,12 +8,15 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'users')]
 class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    /** @var non-empty-string */
     #[ORM\Column(length: 255, nullable: false, unique: true)]
+    #[NotBlank(message: "L'email est obligatoire.")]
     private string $email;
 
     /**
@@ -49,11 +52,13 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         $this->orders = new ArrayCollection();
     }
 
+    /** @return non-empty-string */
     public function getEmail(): string
     {
         return $this->email;
     }
 
+    /** @param non-empty-string $email */
     public function setEmail(string $email): static
     {
         $this->email = $email;
@@ -65,10 +70,11 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
      * A visual identifier that represents this user.
      *
      * @see UserInterface
+     * @return non-empty-string
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return $this->email;
     }
 
     /**

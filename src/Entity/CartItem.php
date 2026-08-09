@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CartItemRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Positive;
 use Symfony\UX\Turbo\Attribute\Broadcast;
 
 #[ORM\Entity(repositoryClass: CartItemRepository::class)]
@@ -12,7 +13,8 @@ use Symfony\UX\Turbo\Attribute\Broadcast;
 class CartItem extends BaseEntity
 {
     #[ORM\Column(nullable: false)]
-    private int $quantity = 0;
+    #[Positive(message: 'La quantité doit être supérieure à zéro.')]
+    private int $quantity = 1;
 
     #[ORM\ManyToOne(inversedBy: 'cartItems')]
     #[ORM\JoinColumn(nullable: false)]

@@ -72,7 +72,7 @@ abstract class BaseEntity
     #[ORM\PrePersist]
     public function initializeCreatedAt(): void
     {
-        if (!isset($this->createdAt) || null === $this->createdAt) {
+        if (!isset($this->createdAt)) {
             $this->createdAt = new \DateTimeImmutable('now');
         }
     }

@@ -20,13 +20,7 @@ class CartItemRepository extends ServiceEntityRepository
 
     public function findFromCartByProduct(Cart $cart, Product $product): ?CartItem
     {
-        return $this->createQueryBuilder('ci')
-            ->andWhere('ci.cart = :cart')
-            ->andWhere('ci.product = :product')
-            ->setParameter('cart', $cart)
-            ->setParameter('product', $product)
-            ->getQuery()
-            ->getOneOrNullResult();
+        return $this->findOneBy(['cart' => $cart, 'product' => $product]);
     }
     //    /**
     //     * @return CartItem[] Returns an array of CartItem objects

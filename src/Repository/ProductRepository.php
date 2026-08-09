@@ -20,12 +20,7 @@ class ProductRepository extends ServiceEntityRepository
      * @return Product[] Returns an array of Product objects
      */
     public function findDemoProducts(): array {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.isPublished = true')
-            ->setMaxResults(9)
-            ->getQuery()
-            ->getResult()
-        ;
+        return $this->findBy(['isPublished' => true], limit: 9);
     }
 
     //    /**

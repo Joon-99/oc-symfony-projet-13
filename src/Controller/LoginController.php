@@ -72,7 +72,9 @@ final class LoginController extends AbstractController
 
             $this->addFlash('success', "Inscription réussie ! Vous êtes maintenant connecté.");
 
-            return $security->login($user, 'form_login', 'main');
+            $security->login($user, 'form_login', 'main');
+
+            return $this->redirectToRoute('app_home');
         }
         return $this->render('login/register.html.twig', [
             'registrationForm' => $form,
