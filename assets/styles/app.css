@@ -345,7 +345,8 @@
 }
 
 /* Adds a pseudo-element to each link of the header to avoid each hover affecting the other links */
-.nav-links a::after {
+.nav-links a::after,
+.nav-links button::after {
     content: attr(data-text);
     font-weight: 600;
     visibility: hidden;
@@ -354,8 +355,20 @@
     overflow: hidden;
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.nav-links button:hover {
     font-weight: 600;
+}
+
+.logout-form {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links button {
+    all: unset;
+    cursor: pointer;
 }
 
 
