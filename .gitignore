@@ -33,3 +33,7 @@
 /format-php-twig.sh
 /TODO.md
 ###< personnal ignores ###
+
+###> phpstan/phpstan ###
+phpstan.neon
+###< phpstan/phpstan ###
