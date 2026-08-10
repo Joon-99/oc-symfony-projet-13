@@ -11,7 +11,7 @@
         <ul class="cart-items">
             {% for item in cartItems %}
                 <li class="cart-item">
-                    {{ item.product.name }} - {{ item.quantity }}
+                    {{ item.product.name }} x {{ item.quantity }} - {{ item.totalPrice }} €
                 </li>
             {% endfor %}
         </ul>

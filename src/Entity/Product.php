@@ -20,6 +20,7 @@ class Product extends BaseEntity
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $picturePath = null;
 
+    /** @var numeric-string|null */
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $price = null;
 
@@ -79,11 +80,17 @@ class Product extends BaseEntity
         return $this;
     }
 
+    /**
+     * @return numeric-string|null
+     */
     public function getPrice(): ?string
     {
         return $this->price;
     }
 
+    /**
+     * @param numeric-string $price 
+     */
     public function setPrice(string $price): static
     {
         $this->price = $price;

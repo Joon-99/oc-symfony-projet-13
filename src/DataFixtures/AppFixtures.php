@@ -197,8 +197,7 @@ class AppFixtures extends Fixture
             $productIndexes = $this->pickRandomKeys($products, $itemsCount);
 
             foreach ($productIndexes as $productIndex) {
-                $cartItem = (new CartItem($cart, $this->randomizer->getInt(1, 4)))
-                    ->setProduct($products[$productIndex]);
+                $cartItem = new CartItem($cart, $this->randomizer->getInt(1, 4), $products[$productIndex]);
 
                 $cart->addCartItem($cartItem);
             }

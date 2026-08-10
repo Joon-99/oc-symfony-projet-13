@@ -3,8 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\CartItemRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Positive;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\UX\Turbo\Attribute\Broadcast;
 
 #[ORM\Entity(repositoryClass: CartItemRepository::class)]
@@ -24,14 +27,28 @@ class CartItem extends BaseEntity
     #[ORM\JoinColumn(nullable: true)]
     private ?Product $product = null;
 
-    public function __construct(Cart $cart, int $quantity, ?Product $product = null)
+    /** @var numeric-string */
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: false)]
+    #[NotBlank(message: 'Le prix ne peut pas être vide.')]
+    #[Positive(message: 'Le prix doit être supérieur à zéro.')]
+    #[Regex(
+        pattern: '/^\d{1,8}(\.\d{1,2})?$/',
+        message: 'Le prix ne peut pas dépasser 8 chiffres avant la virgule et 2 chiffres après.',
+    )]
+    private string $price;
+
+    public function __construct(Cart $cart, int $quantity, Product $product)
     {
         parent::__construct();
         $this->setCart($cart);
         $this->setQuantity($quantity);
-        if ($product) {
-            $this->setProduct($product);
+        $this->setProduct($product);
+
+        $price = $product->getPrice();
+        if ($price === null) {
+            throw new \DomainException("Cannot add product {$product->getName()} to a cart: it has no price.");
         }
+        $this->setPrice($price);
     }
 
     public function getQuantity(): int
@@ -68,5 +85,28 @@ class CartItem extends BaseEntity
         $this->product = $product;
 
         return $this;
+    }
+
+    /**
+     * @return numeric-string 
+     */
+    public function getPrice(): string
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param numeric-string $price 
+     */
+    public function setPrice(string $price): static
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getTotalPrice(): string
+    {
+        return bcmul($this->price, (string)$this->quantity, 2);
     }
 }
