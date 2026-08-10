@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Exception\EmptyCartException;
+use App\Exception\MissingCartException;
 use App\Repository\OrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -14,8 +16,9 @@ use Symfony\UX\Turbo\Attribute\Broadcast;
 #[Broadcast]
 class Order extends BaseEntity
 {
+    /** @var numeric-string $totalAmount */
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: false)]
-    private ?string $totalAmount = null;
+    private readonly string $totalAmount;
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
     #[ORM\JoinColumn(nullable: false)]
@@ -24,11 +27,11 @@ class Order extends BaseEntity
     /**
      * @var Collection<int, OrderItem>
      */
-    #[ORM\OneToMany(targetEntity: OrderItem::class, mappedBy: 'purchaseOrder', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: OrderItem::class, mappedBy: 'purchaseOrder', orphanRemoval: true, cascade: ['persist', 'remove'])]
     private Collection $orderItems;
 
     #[ORM\Column(nullable: false)]
-    private \DateTimeImmutable $orderDate;
+    private readonly \DateTimeImmutable $orderDate;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $cancelDate = null;
@@ -39,23 +42,31 @@ class Order extends BaseEntity
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $deliveryDate = null;
 
-    public function __construct()
+    public function __construct(User $owner, ?\DateTimeImmutable $orderDate = null)
     {
         parent::__construct();
+        $cart = $owner->getCart();
+        if ($cart === null) {
+            throw new MissingCartException();
+        }
+        $cartItems = $cart->getCartItems();
+        if ($cartItems->isEmpty()) {
+            throw new EmptyCartException();
+        }
+        $this->setOwner($owner);
         $this->orderItems = new ArrayCollection();
-        $this->orderDate = new \DateTimeImmutable('now');
+        foreach ($cartItems as $cartItem) {
+            $orderItem = new OrderItem($this,  $cartItem);
+            $this->addOrderItem($orderItem);
+        }
+        $this->totalAmount = $cart->getTotalPrice();
+        $this->orderDate = $orderDate ?? new \DateTimeImmutable('now');
     }
 
-    public function getTotalAmount(): ?string
+    /** @return numeric-string */
+    public function getTotalAmount(): string
     {
         return $this->totalAmount;
-    }
-
-    public function setTotalAmount(string $totalAmount): static
-    {
-        $this->totalAmount = $totalAmount;
-
-        return $this;
     }
 
     public function getOwner(): User
@@ -82,7 +93,6 @@ class Order extends BaseEntity
     {
         if (!$this->orderItems->contains($orderItem)) {
             $this->orderItems->add($orderItem);
-            $orderItem->setPurchaseOrder($this);
         }
 
         return $this;
@@ -98,13 +108,6 @@ class Order extends BaseEntity
     public function getOrderDate(): ?\DateTimeImmutable
     {
         return $this->orderDate;
-    }
-
-    public function setOrderDate(\DateTimeImmutable $orderDate): static
-    {
-        $this->orderDate = $orderDate;
-
-        return $this;
     }
 
     public function getCancelDate(): ?\DateTimeImmutable
@@ -141,5 +144,10 @@ class Order extends BaseEntity
         $this->deliveryDate = $deliveryDate;
 
         return $this;
+    }
+
+    public function getOrderReference(): string
+    {
+        return sprintf('ORD-%09d', $this->getId() ?? 0);
     }
 }

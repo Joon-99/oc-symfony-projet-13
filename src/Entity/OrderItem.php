@@ -13,25 +13,35 @@ use Symfony\UX\Turbo\Attribute\Broadcast;
 class OrderItem extends BaseEntity
 {
     #[ORM\Column(type: Types::INTEGER, nullable: false)]
-    private int $quantity = 0;
+    private readonly int $quantity;
 
+    /** @var numeric-string */
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: false)]
-    private string $unitAmount = '0.00';
+    private readonly string $unitAmount;
+
+    #[ORM\Column(length: 255, nullable: false)]
+    private readonly string $productName;
+
+    #[ORM\Column(type: Types::INTEGER, nullable: false)]
+    private readonly int $productId;
 
     #[ORM\ManyToOne(inversedBy: 'orderItems')]
     #[ORM\JoinColumn(nullable: false)]
-    private Order $purchaseOrder;
+    private readonly Order $purchaseOrder;
 
-    #[ORM\ManyToOne(inversedBy: 'orderItems')]
-    #[ORM\JoinColumn(nullable: true)]
-    private ?Product $product = null;
-
-    public function __construct(Order $purchaseOrder, int $quantity, string $unitAmount)
+    public function __construct(Order $purchaseOrder, CartItem $cartItem)
     {
         parent::__construct();
-        $this->setPurchaseOrder($purchaseOrder);
-        $this->setQuantity($quantity);
-        $this->setUnitAmount($unitAmount);
+        $product = $cartItem->getProduct();
+        $productId = $product->getId();
+        if ($productId === null) {
+            throw new \DomainException("Cannot create an order item: product {$product->getName()} is not persisted.");
+        }
+        $this->purchaseOrder = $purchaseOrder;
+        $this->quantity = $cartItem->getQuantity();
+        $this->unitAmount = $cartItem->getPrice();
+        $this->productName = $product->getName();
+        $this->productId = $productId;
     }
 
     public function getQuantity(): ?int
@@ -39,46 +49,24 @@ class OrderItem extends BaseEntity
         return $this->quantity;
     }
 
-    public function setQuantity(int $quantity): static
-    {
-        $this->quantity = $quantity;
-
-        return $this;
-    }
-
     public function getUnitAmount(): string
     {
         return $this->unitAmount;
-    }
-
-    public function setUnitAmount(string $unitAmount): static
-    {
-        $this->unitAmount = $unitAmount;
-
-        return $this;
     }
 
     public function getPurchaseOrder(): Order
     {
         return $this->purchaseOrder;
     }
-
-    public function setPurchaseOrder(Order $purchaseOrder): static
+    
+    public function getProductName(): string
     {
-        $this->purchaseOrder = $purchaseOrder;
-
-        return $this;
+        return $this->productName;
     }
 
-    public function getProduct(): ?Product
+    public function getProductId(): int
     {
-        return $this->product;
+        return $this->productId;
     }
 
-    public function setProduct(?Product $product): static
-    {
-        $this->product = $product;
-
-        return $this;
-    }
 }

@@ -1,0 +1,19 @@
+{# @var orders \App\Entity\Order[] #}
+<table class="user-orders-table">
+    <thead>
+        <tr>
+            <th class="grey-text">N°</th>
+            <th class="grey-text">Date</th>
+            <th class="grey-text">Prix</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+            <tr>
+                <td class="order-reference semi-bold-text">{{ order.orderReference }}</td>
+                <td class="order-date semi-bold-text">{{ order.orderDate|date('d/m/Y') }}</td>
+                <td class="order-total semi-bold-text">{{ order.totalAmount|number_format(2, ',', ' ') }}€</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

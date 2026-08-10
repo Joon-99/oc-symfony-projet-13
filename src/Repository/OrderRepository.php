@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Order;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -15,6 +16,17 @@ class OrderRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Order::class);
     }
+
+    /**
+     * @param 'ASC'|'DESC' $order
+     *
+     * @return Order[]
+     */
+    public function findByUserSortedByDate(User $user, string $order = 'DESC'): array
+    {
+        return $this->findBy(['owner' => $user], ['orderDate' => $order]);
+    }
+
 
     //    /**
     //     * @return Order[] Returns an array of Order objects

@@ -24,8 +24,8 @@ class CartItem extends BaseEntity
     private Cart $cart;
 
     #[ORM\ManyToOne(inversedBy: 'cartItems')]
-    #[ORM\JoinColumn(nullable: true)]
-    private ?Product $product = null;
+    #[ORM\JoinColumn(nullable: false)]
+    private Product $product;
 
     /** @var numeric-string */
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: false)]
@@ -75,12 +75,12 @@ class CartItem extends BaseEntity
         return $this;
     }
 
-    public function getProduct(): ?Product
+    public function getProduct(): Product
     {
         return $this->product;
     }
 
-    public function setProduct(?Product $product): static
+    public function setProduct(Product $product): static
     {
         $this->product = $product;
 

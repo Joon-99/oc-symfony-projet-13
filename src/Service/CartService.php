@@ -2,10 +2,13 @@
 
 namespace App\Service;
 
+use App\Entity\Order;
 use App\Entity\Cart;
 use App\Entity\CartItem;
 use App\Entity\Product;
 use App\Entity\User;
+use App\Exception\EmptyCartException;
+use App\Exception\MissingCartException;
 use App\Exception\ProductNotPublishedException;
 use App\Repository\CartItemRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -78,14 +81,23 @@ final class CartService
     }
 
     /**
-     * Validate the user's cart. This is a placeholder for actual validation logic.
-     * 
+     * Place an order from the user's cart. The cart is only emptied once the order has been persisted.
+     *
+     * @throws EmptyCartException
+     * @throws MissingCartException
      * @throws \Exception
      */
-    public function validateCart(User $user): void
+    public function checkout(User $user): Order
     {
-        $cart = $this->getOrCreateCart($user);
-        // Placeholder for actual validation logic
-        // For example, you might check if all products are in stock
+        // TODO: check stock
+        $order = new Order($user);
+
+        $this->entityManager->wrapInTransaction(function () use ($order, $user): void {
+            $this->entityManager->persist($order);
+            $this->entityManager->flush();
+            $this->emptyCart($user);
+        });
+
+        return $order;
     }
 }

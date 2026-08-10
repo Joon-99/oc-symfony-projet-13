@@ -67,15 +67,15 @@ final class CartController extends AbstractController
         return $this->redirectToRoute('app_cart');
     }
 
-    #[Route('/cart/validate', name: 'app_cart_validate', methods: ['POST'])]
-    public function validateCart(#[CurrentUser] User $user): Response
+    #[Route('/cart/checkout', name: 'app_cart_checkout', methods: ['POST'])]
+    public function checkout(#[CurrentUser] User $user): Response
     {
         try {
-            $this->cartService->validateCart($user);
-            $this->addFlash('success', "Le panier a été validé.");
+            $this->cartService->checkout($user);
+            $this->addFlash('success', "La commande a été passée.");
         } catch (\Exception $e) {
-            $this->logger->error(__METHOD__ . "Error while validating the cart: " . $e->getMessage());
-            $this->addFlash('error', "Une erreur est survenue lors de la validation du panier.");
+            $this->logger->error(__METHOD__ . "Error on checkout: " . $e->getMessage());
+            $this->addFlash('error', "Une erreur est survenue lors de la création de la commande.");
         }
 
         return $this->redirectToRoute('app_cart');

@@ -24,7 +24,7 @@
                 </div>
             </div>
         </ul>
-        {{ csrf_form.post_action('app_cart_validate', {}, 'Valider la commande', 'validate-cart-btn cta-grey-button') }}
+        {{ csrf_form.post_action('app_cart_checkout', {}, 'Valider la commande', 'validate-cart-btn cta-grey-button') }}
     {% endif %}
 </section>
 {% endblock %}

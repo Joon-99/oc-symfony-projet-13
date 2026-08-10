@@ -452,6 +452,72 @@
 }
 
 
+/* PROFILE */
+
+.profile-section {
+    display: flex;
+    flex-direction: column;
+    padding: 43px 418px 77px;
+    background-color: var(--linen-color);
+}
+
+.profile-title {
+    margin-top: 0;
+    margin-bottom: 43px;
+    line-height: 120%;
+    align-self: center;
+}
+
+.user-orders {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 60px;
+    background-color: var(--ivory-color);
+}
+
+.user-orders h3 {
+    margin: 0;
+    line-height: 120%;
+    font-size: inherit;
+}
+
+.user-orders-table th {
+    text-align: left;
+    padding-bottom: 20px;
+    line-height: 120%;
+    font-weight: inherit;
+}
+
+.user-orders-table {
+    width: 100%;
+}
+
+.user-orders-table td {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    line-height: 120%;
+    border-bottom: 1px solid var(--silver-color);
+}
+
+.user-orders-table tbody tr:first-child td {
+    padding-top: 0;
+}
+
+.user-orders-table tbody tr:last-child td {
+    padding-bottom: 0;
+    border: 0;
+}
+
+.user-orders-table tbody tr td:last-child, .user-orders-table thead tr th:last-child {
+    text-align: right;
+}
+
+.user-orders-table thead tr th:last-child {
+    padding-right: 30px;
+}
+
+
 /* HEADER */
 
 .header-container {

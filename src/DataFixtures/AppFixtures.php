@@ -5,7 +5,6 @@ namespace App\DataFixtures;
 use App\Entity\Cart;
 use App\Entity\CartItem;
 use App\Entity\Order;
-use App\Entity\OrderItem;
 use App\Entity\Product;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -30,6 +29,9 @@ class AppFixtures extends Fixture
     {
         /** @var non-empty-list<Product> $products */
         $products = $this->createProducts($manager);
+
+        // Products need their IDs assigned before carts/orders reference them
+        $manager->flush();
 
         /** @var non-empty-list<User> $regularUsers */
         [$adminUser, $regularUsers] = $this->createUsers($manager);
@@ -236,32 +238,32 @@ class AppFixtures extends Fixture
      */
     private function createOrderForUser(ObjectManager $manager, User $user, array $products): void
     {
-        $order = (new Order())
-            ->setOwner($user);
+        $cart = $user->getCart();
+        if ($cart === null) {
+            $cart = new Cart($user);
+            $manager->persist($cart);
+        }
 
         /** @var int<1, 4> $itemsCount */
         $itemsCount = $this->randomizer->getInt(1, 4);
         $productIndexes = $this->pickRandomKeys($products, $itemsCount);
 
-        $total = 0.0;
-
         foreach ($productIndexes as $productIndex) {
-            $product = $products[$productIndex];
             $quantity = $this->randomizer->getInt(1, 3);
-            $unitAmount = $product->getPrice() ?? '0.00';
+            $cartItem = new CartItem($cart, $quantity, $products[$productIndex]);
 
-            $orderItem = (new OrderItem($order, $quantity, $unitAmount))
-                ->setProduct($product);
-
-            $order->addOrderItem($orderItem);
-            $manager->persist($orderItem);
-
-            $total += ((float) $unitAmount) * $quantity;
+            $cart->addCartItem($cartItem);
+            $manager->persist($cartItem);
         }
 
-        $order->setTotalAmount(number_format($total, 2, '.', ''));
-
+        $order = new Order($user, $this->randomPastDate());
         $manager->persist($order);
+
+        // Order() only snapshots the cart items; emptying the cart afterwards is the caller's job
+        foreach ($cart->getCartItems()->toArray() as $cartItem) {
+            $cart->removeCartItem($cartItem);
+            $manager->remove($cartItem);
+        }
     }
 
     /**
@@ -275,5 +277,15 @@ class AppFixtures extends Fixture
         $keys = $this->randomizer->pickArrayKeys($items, $count);
 
         return array_values(array_map(static fn (int|string $key): int => (int) $key, $keys));
+    }
+
+    private function randomPastDate(): \DateTimeImmutable
+    {
+        $now = new \DateTimeImmutable('now');
+        $fiveYearsAgo = $now->modify('-5 years');
+
+        $randomTimestamp = $this->randomizer->getInt($fiveYearsAgo->getTimestamp(), $now->getTimestamp());
+
+        return (new \DateTimeImmutable())->setTimestamp($randomTimestamp);
     }
 }
