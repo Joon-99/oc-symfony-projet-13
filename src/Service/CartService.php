@@ -3,11 +3,12 @@
 namespace App\Service;
 
 use App\Entity\Cart;
-use App\Entity\User;
-use App\Entity\Product;
 use App\Entity\CartItem;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Product;
+use App\Entity\User;
+use App\Exception\ProductNotPublishedException;
 use App\Repository\CartItemRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
 final class CartService
 {
@@ -40,10 +41,14 @@ final class CartService
     /**
      * Add an item to the user's cart. If the item already exists in the cart, increase its quantity.
      * 
+     * @throws ProductNotPublishedException
      * @throws \Exception
      */
     public function addItemToCart(User $user, Product $product, int $quantity = 1): void
     {
+        if (!$product->isPublished()) {
+            throw new ProductNotPublishedException();
+        }
         $cart = $this->getOrCreateCart($user);
         $cartItem = $this->cartItemRepo->findFromCartByProduct($cart, $product);
 
