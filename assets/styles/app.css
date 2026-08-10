@@ -454,6 +454,12 @@
 
 /* PROFILE */
 
+.profile-blocks {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
 .profile-section {
     display: flex;
     flex-direction: column;
@@ -516,6 +522,29 @@
 .user-orders-table thead tr th:last-child {
     padding-right: 30px;
 }
+
+.user-api-toggle {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 60px;
+    background-color: var(--ivory-color);
+}
+
+.user-api-toggle-title {
+    font-size: inherit;
+    margin: 0;
+    line-height: 120%;
+}
+
+.user-delete-account {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 60px;
+    background-color: var(--ivory-color);
+}
+
 
 
 /* HEADER */

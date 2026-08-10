@@ -21,4 +21,18 @@ final class UserController extends AbstractController
             'orders' => $orderService->getOrdersByUserSortedByDate($user),
         ]);
     }
+
+    #[Route('/profile/delete', name: 'app_user_delete', methods: ['POST'])]
+    public function delete(#[CurrentUser] User $user): Response
+    {
+        // Implement the logic to delete the user account here.
+        return $this->redirectToRoute('app_home');
+    }
+
+    #[Route('/profile/toggle-api', name: 'app_user_toggle_api', methods: ['POST'])]
+    public function toggleApiAccess(#[CurrentUser] User $user): Response
+    {
+        // Implement the logic to toggle the API access for the user here.
+        return $this->redirectToRoute('app_profile');
+    }
 }

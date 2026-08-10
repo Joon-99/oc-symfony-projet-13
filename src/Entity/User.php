@@ -46,6 +46,9 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'owner', orphanRemoval: true)]
     private Collection $orders;
 
+    #[ORM\Column(nullable: false, options: ['default' => false])]
+    private bool $apiEnabled = false;
+
     public function __construct()
     {
         parent::__construct();
@@ -194,6 +197,18 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     public function removeOrder(Order $order): static
     {
         $this->orders->removeElement($order);
+
+        return $this;
+    }
+
+    public function isApiEnabled(): bool
+    {
+        return $this->apiEnabled;
+    }
+
+    public function setApiEnabled(bool $apiEnabled): static
+    {
+        $this->apiEnabled = $apiEnabled;
 
         return $this;
     }

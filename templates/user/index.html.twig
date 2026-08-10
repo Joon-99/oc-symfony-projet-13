@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% import '_macros/csrf_form.html.twig' as csrf %}
 
 {% block title %}Mon compte{% endblock %}
 
@@ -6,13 +7,23 @@
 <section class="profile-section">
     <h2 class="profile-title semi-bold-text text-xxl">Mon compte</h2>
 
-    <div class="user-orders">
-        <h3 class="user-orders-title bold-text black-text">Mes commandes</h3>
-        {% if orders is empty %}
-            <p class="empty-orders-info grey-text">Vous n'avez pas encore passé de commande.</p>
-        {% else %}
-            {% include 'order/_orders_table.html.twig' with {'orders': orders} %}
-        {% endif %}
+    <div class="profile-blocks">
+        <div class="user-orders">
+            <h3 class="user-orders-title bold-text black-text">Mes commandes</h3>
+                {% if orders is empty %}
+                    <p class="empty-orders-info grey-text">Vous n'avez pas encore passé de commande.</p>
+                {% else %}
+                    {% include 'order/_orders_table.html.twig' with {'orders': orders} %}
+                {% endif %}
+        </div>
+        <div class="user-api-toggle">
+            <h3 class="user-api-toggle-title bold-text black-text">Mon accès API</h3>
+            {% set api_action_text = user.apiEnabled ? 'Désactiver' : 'Activer' %}
+            {{ csrf.post_action('app_user_toggle_api', {}, api_action_text ~ ' mon accès API', 'user-api-toggle-btn cta-grey-button') }}
+        </div>
+        <div class="user-delete-account">
+            {{ csrf.post_action('app_user_delete', {}, 'Supprimer mon compte', 'user-delete-account-btn cta-grey-button') }}
+        </div>
     </div>
 </section>
 {% endblock %}

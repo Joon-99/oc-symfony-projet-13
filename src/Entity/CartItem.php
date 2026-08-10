@@ -28,7 +28,7 @@ class CartItem extends BaseEntity
     private Product $product;
 
     /** @var numeric-string */
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: false)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: false, options: ['default' => '0.00'])]
     #[NotBlank(message: 'Le prix ne peut pas être vide.')]
     #[Positive(message: 'Le prix doit être supérieur à zéro.')]
     #[Regex(
