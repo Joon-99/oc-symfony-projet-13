@@ -1,8 +1,10 @@
 :root {
     --white-color: #ffffff;
     --ivory-color: #fffdf7;
+    --ivory-color-70: rgb(from var(--ivory-color) r g b / 70%);
     --off-white-color: #f6f5f0;
     --soft-sage-color: #e8f0e3;
+    --linen-color: #f7f1ec;
     --sand-color: #ebe3d3;
     --grey-color: #666666;
     --stone-grey-color: #565656;

@@ -199,6 +199,15 @@
     margin-top: auto;
 }
 
+/* to remove the form element from the layout */
+.contents-form {
+    display: contents;
+}
+
+.contents-form button {
+    cursor: pointer;
+}
+
 .product-view-long-description {
     margin-top: 10px;
     margin-bottom: 0px;
@@ -221,6 +230,126 @@
     margin: 0px;
     line-height: 120%;
 }
+
+/* CART */
+
+.cart-section {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding-left: 418px;
+    padding-right: 418px;
+    padding-top: 102px;
+    padding-bottom: 146px;
+    background-color: var(--linen-color);
+}
+
+.cart-section h2 {
+    margin: 0;
+    line-height: 120%;
+    align-self: center;
+}
+
+.cart-action {
+    -webkit-appearance: none;
+    appearance: none;
+    margin-top: 16px;
+    text-align: left;
+    background-color: inherit;
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+.cart-items {
+    box-sizing: border-box;
+    margin-top: 17px;
+    margin-bottom: 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+.cart-total {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    gap: 6px;
+    height: 81px;
+    background-color: var(--ivory-color-70);
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 38px;
+    box-sizing: border-box;
+}
+
+.cart-total-price {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cart-total-price p, .cart-total-fees p {
+    margin: 0;
+    line-height: 120%;
+}
+
+.validate-cart-btn {
+    align-self: center;
+    padding: 0 170.5px;
+    margin-top: 30px;
+}
+
+.empty-cart-info {
+    align-self: center;
+}
+
+
+/* CART ITEM */
+
+.item-card {
+    display: flex;
+    gap: 55px;
+    height: 220px;
+    background-color: var(--ivory-color);
+    padding-left: 43px;
+    padding-top: 40px;
+    padding-bottom: 47px;
+    box-sizing: border-box;
+}
+
+.item-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.item-card-image-container {
+    width: 142px;
+}
+
+.item-card-name, .item-card-quantity, .item-card-price {
+    line-height: 120%;
+    margin-bottom: 0px;
+}
+
+.item-card-name {
+    margin-top: 32px;
+}
+
+.item-card-quantity {
+    margin-top: 6px;
+}
+
+.item-card-price {
+    margin-top: 13px;
+}
+
+
 
 /* LOGIN */
 

@@ -105,6 +105,9 @@ class CartItem extends BaseEntity
         return $this;
     }
 
+    /**
+     * @return numeric-string
+     */
     public function getTotalPrice(): string
     {
         return bcmul($this->price, (string)$this->quantity, 2);

@@ -1,0 +1,10 @@
+<div class="item-card">
+    <div class="item-card-image-container">
+        <img src="{{ asset(item.product.picturePath) }}" alt="Picture of {{ item.product.name }}">
+    </div>
+    <div class="item-card-info-container">
+        <h3 class="item-card-name bold-text black-text">{{ item.product.name }}</h3>
+        <p class="item-card-quantity grey-text">Quantité : {{ item.quantity }}</p>
+        <p class="item-card-price semi-bold-text text-xl">{{ item.price }}€</p>
+    </div>
+</div>

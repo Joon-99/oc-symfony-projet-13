@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% import '_macros/csrf_form.html.twig' as csrf_form %}
 
 {% block title %}Product - {{ product.name }}{% endblock %}
 
@@ -12,7 +13,7 @@
             <p class="product-view-price thin-text text-3xl">{{ product.price | replace({"." : ","}) }}€</p>
             <p class="product-view-label text-xs grey-text">Description</p>
             <p class="product-view-long-description grey-text">{{ product.longDescription|nl2br }}</p>
-            <a href="{{ path('app_cart_add', {'product': product.id}) }}" class="product-view-button cta-grey-button">Ajouter au panier</a>
+            {{ csrf_form.post_action('app_cart_add', {'product': product.id}, 'Ajouter au panier', 'product-view-button cta-grey-button') }}
         </div>
     </section>
 {% endblock %}

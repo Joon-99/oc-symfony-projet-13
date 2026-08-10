@@ -57,4 +57,30 @@ final class CartService
         $this->entityManager->persist($cartItem);
         $this->entityManager->flush();
     }
+
+    /**
+     * Empty the user's cart by removing all items.
+     * 
+     * @throws \Exception
+     */
+    public function emptyCart(User $user): void
+    {
+        $cart = $this->getOrCreateCart($user);
+        foreach ($cart->getCartItems() as $cartItem) {
+            $this->entityManager->remove($cartItem);
+        }
+        $this->entityManager->flush();
+    }
+
+    /**
+     * Validate the user's cart. This is a placeholder for actual validation logic.
+     * 
+     * @throws \Exception
+     */
+    public function validateCart(User $user): void
+    {
+        $cart = $this->getOrCreateCart($user);
+        // Placeholder for actual validation logic
+        // For example, you might check if all products are in stock
+    }
 }

@@ -39,7 +39,7 @@ final class CartController extends AbstractController
         ]);
     }
 
-    #[Route('/cart/add/{product}', name: 'app_cart_add')]
+    #[Route('/cart/add/{product}', name: 'app_cart_add', methods: ['POST'])]
     public function add(Product $product, #[CurrentUser] User $user, int $quantity = 1): Response
     {
         try {
@@ -48,6 +48,34 @@ final class CartController extends AbstractController
         } catch (\Exception $e) {
             $this->logger->error(__METHOD__ . "Error while adding an item to the cart: " . $e->getMessage());
             $this->addFlash('error', "Une erreur est survenue lors de l'ajout du produit au panier.");
+        }
+
+        return $this->redirectToRoute('app_cart');
+    }
+
+    #[Route('/cart/empty', name: 'app_cart_empty', methods: ['POST'])]
+    public function emptyCart(#[CurrentUser] User $user): Response
+    {
+        try {
+            $this->cartService->emptyCart($user);
+            $this->addFlash('success', "Le panier a été vidé.");
+        } catch (\Exception $e) {
+            $this->logger->error(__METHOD__ . "Error while emptying the cart: " . $e->getMessage());
+            $this->addFlash('error', "Une erreur est survenue lors de la vidange du panier.");
+        }
+
+        return $this->redirectToRoute('app_cart');
+    }
+
+    #[Route('/cart/validate', name: 'app_cart_validate', methods: ['POST'])]
+    public function validateCart(#[CurrentUser] User $user): Response
+    {
+        try {
+            $this->cartService->validateCart($user);
+            $this->addFlash('success', "Le panier a été validé.");
+        } catch (\Exception $e) {
+            $this->logger->error(__METHOD__ . "Error while validating the cart: " . $e->getMessage());
+            $this->addFlash('error', "Une erreur est survenue lors de la validation du panier.");
         }
 
         return $this->redirectToRoute('app_cart');

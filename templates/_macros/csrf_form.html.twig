@@ -1,0 +1,7 @@
+{# Reusable one-line-call macro for a CSRF-protected POST button, so state-changing actions never need a hand-rolled <form> #}
+{% macro post_action(route, params, label, class) %}
+    <form action="{{ path(route, params) }}" method="post" class="contents-form">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token(route) }}">
+        <button type="submit" class="{{ class }}">{{ label }}</button>
+    </form>
+{% endmacro %}

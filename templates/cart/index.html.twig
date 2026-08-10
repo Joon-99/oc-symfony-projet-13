@@ -1,20 +1,30 @@
 {% extends 'base.html.twig' %}
+{% import '_macros/csrf_form.html.twig' as csrf_form %}
 
-{% block title %}Hello CartController!{% endblock %}
+{% block title %}Mon Panier{% endblock %}
 
 {% block content %}
 <section class="cart-section">
-    <h1 class="semi-bold-text text-xxl">Panier</h1>
+    <h2 class="semi-bold-text text-xxl">Mon panier</h2>
     {% if cartItems is empty %}
-        <p class="grey-text text-s">Votre panier est vide.</p>
+        <p class="empty-cart-info grey-text">Le panier est vide.</p>
     {% else %}
+        {{ csrf_form.post_action('app_cart_empty', {}, 'x Vider le panier', 'cart-action') }}
         <ul class="cart-items">
             {% for item in cartItems %}
-                <li class="cart-item">
-                    {{ item.product.name }} x {{ item.quantity }} - {{ item.totalPrice }} €
-                </li>
+                {% include 'cart/_cart_item_card.html.twig' with {'item': item} %}
             {% endfor %}
+            <div class="cart-total">
+                <div class="cart-total-price">
+                    <p class="cart-total-label semi-bold-text">Total panier :</p>
+                    <p class="cart-total-price text-xxl">{{ cart.totalPrice|number_format(2, ',', ' ') }}€</p>
+                </div>
+                <div class="cart-total-fees">
+                    <p class="text-s grey-text">Frais de livraison : Offert</p>
+                </div>
+            </div>
         </ul>
+        {{ csrf_form.post_action('app_cart_validate', {}, 'Valider la commande', 'validate-cart-btn cta-grey-button') }}
     {% endif %}
 </section>
 {% endblock %}

@@ -82,4 +82,17 @@ class Cart extends BaseEntity
 
         return $this;
     }
+
+    /**
+     * @return numeric-string
+     */
+    public function getTotalPrice(): string
+    {
+        $total = '0.00';
+        foreach ($this->cartItems as $cartItem) {
+            $total = bcadd($total, $cartItem->getTotalPrice(), 2);
+        }
+
+        return $total;
+    }
 }
