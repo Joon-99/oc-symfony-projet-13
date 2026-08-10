@@ -28,7 +28,7 @@ final class CartController extends AbstractController
         try {
             $cart = $this->cartService->getOrCreateCart($user);
         } catch (\Exception $e) {
-            $this->logger->error(__METHOD__ . "Error while fetching the cart: " . $e->getMessage());
+            $this->logger->error('Error while fetching the cart', ['exception' => $e]);
             $this->addFlash('error', "Une erreur est survenue lors de la récupération du panier.");
         }
         $cartItems = $cart ? $cart->getCartItems() : [];
@@ -46,7 +46,7 @@ final class CartController extends AbstractController
             $this->cartService->addItemToCart($user, $product, $quantity);
             $this->addFlash('success', "Le produit a été ajouté au panier.");
         } catch (\Exception $e) {
-            $this->logger->error(__METHOD__ . "Error while adding an item to the cart: " . $e->getMessage());
+            $this->logger->error('Error while adding an item to the cart', ['exception' => $e]);
             $this->addFlash('error', "Une erreur est survenue lors de l'ajout du produit au panier.");
         }
 
@@ -60,7 +60,7 @@ final class CartController extends AbstractController
             $this->cartService->emptyCart($user);
             $this->addFlash('success', "Le panier a été vidé.");
         } catch (\Exception $e) {
-            $this->logger->error(__METHOD__ . "Error while emptying the cart: " . $e->getMessage());
+            $this->logger->error('Error while emptying the cart', ['exception' => $e]);
             $this->addFlash('error', "Une erreur est survenue lors de la vidange du panier.");
         }
 
@@ -74,7 +74,7 @@ final class CartController extends AbstractController
             $this->cartService->checkout($user);
             $this->addFlash('success', "La commande a été passée.");
         } catch (\Exception $e) {
-            $this->logger->error(__METHOD__ . "Error on checkout: " . $e->getMessage());
+            $this->logger->error('Error on checkout', ['exception' => $e]);
             $this->addFlash('error', "Une erreur est survenue lors de la création de la commande.");
         }
 

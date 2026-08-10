@@ -19,7 +19,8 @@
         <div class="user-api-toggle">
             <h3 class="user-api-toggle-title bold-text black-text">Mon accès API</h3>
             {% set api_action_text = user.apiEnabled ? 'Désactiver' : 'Activer' %}
-            {{ csrf.post_action('app_user_toggle_api', {}, api_action_text ~ ' mon accès API', 'user-api-toggle-btn cta-grey-button') }}
+            {% set api_onclick_text = user.apiEnabled ? "return confirm('Voulez-vous vraiment désactiver votre accès API ?')" : ''%}
+            {{ csrf.post_action('app_user_toggle_api', {}, api_action_text ~ ' mon accès API', 'user-api-toggle-btn cta-grey-button', api_onclick_text) }}
         </div>
         <div class="user-delete-account">
             {{ csrf.post_action('app_user_delete', {}, 'Supprimer mon compte', 'user-delete-account-btn cta-grey-button') }}

@@ -66,7 +66,7 @@ final class LoginController extends AbstractController
                 $entityManager->flush();
             } catch (\Exception $e) {
                 $this->addFlash('error', "Une erreur est survenue lors de l'inscription. Veuillez réessayer plus tard.");
-                $this->logger->error('Error during user registration: ' . $e->getMessage());
+                $this->logger->error('Error during user registration', ['exception' => $e]);
                 return $this->redirectToRoute('app_register');
             }
 
