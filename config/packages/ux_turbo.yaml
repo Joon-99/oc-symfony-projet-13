@@ -1,7 +1,7 @@
-# Enable stateless CSRF protection for forms and logins/logouts
-framework:
-    csrf_protection:
-        check_header: true
+# Only needed if turbo-core is re-enabled (stateless CSRF via header, for Turbo's fetch-based submits)
+# framework:
+#     csrf_protection:
+#         check_header: true
 
 turbo:
     broadcast:
