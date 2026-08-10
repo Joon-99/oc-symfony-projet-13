@@ -41,15 +41,17 @@ security:
 
     # Note: Only the *first* matching rule is applied
     access_control:
-        - { route: app_login, roles: PUBLIC_ACCESS }
-        - { route: app_register, roles: PUBLIC_ACCESS }
-        - { route: app_home, roles: PUBLIC_ACCESS }
-        - { route: app_product, roles: PUBLIC_ACCESS }
+        - { route: ^app_login$, roles: PUBLIC_ACCESS }
+        - { route: ^app_register$, roles: PUBLIC_ACCESS }
+        - { route: ^app_home$, roles: PUBLIC_ACCESS }
+        - { route: ^app_product$, roles: PUBLIC_ACCESS }
 
-        - { route: app_logout, roles: ROLE_USER }
-        - { route: app_profile, roles: ROLE_USER }
-        - { route: app_cart, roles: ROLE_USER }
-        - { route: app_cart_add, roles: ROLE_USER }
+        - { route: ^app_logout$, roles: ROLE_USER }
+        - { route: ^app_profile$, roles: ROLE_USER }
+        - { route: ^app_cart$, roles: ROLE_USER }
+        - { route: ^app_cart_add$, roles: ROLE_USER }
+        - { route: ^app_cart_empty$, roles: ROLE_USER }
+        - { route: ^app_cart_validate$, roles: ROLE_USER }
 
         - { path: ^/, roles: ROLE_ADMIN }
     
