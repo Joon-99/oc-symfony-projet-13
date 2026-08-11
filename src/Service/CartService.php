@@ -2,9 +2,9 @@
 
 namespace App\Service;
 
-use App\Entity\Order;
 use App\Entity\Cart;
 use App\Entity\CartItem;
+use App\Entity\Order;
 use App\Entity\Product;
 use App\Entity\User;
 use App\Exception\EmptyCartException;
@@ -17,13 +17,13 @@ final class CartService
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly CartItemRepository $cartItemRepo,)
+        private readonly CartItemRepository $cartItemRepo, )
     {
     }
 
     /**
      * Get the user's cart or create a new one if it doesn't exist.
-     * 
+     *
      * @throws \Exception
      */
     public function getOrCreateCart(User $user): Cart
@@ -43,7 +43,7 @@ final class CartService
 
     /**
      * Add an item to the user's cart. If the item already exists in the cart, increase its quantity.
-     * 
+     *
      * @throws ProductNotPublishedException
      * @throws \Exception
      */
@@ -68,7 +68,7 @@ final class CartService
 
     /**
      * Empty the user's cart by removing all items.
-     * 
+     *
      * @throws \Exception
      */
     public function emptyCart(User $user): void

@@ -29,7 +29,7 @@ final class CartController extends AbstractController
             $cart = $this->cartService->getOrCreateCart($user);
         } catch (\Exception $e) {
             $this->logger->error('Error while fetching the cart', ['exception' => $e]);
-            $this->addFlash('error', "Une erreur est survenue lors de la récupération du panier.");
+            $this->addFlash('error', 'Une erreur est survenue lors de la récupération du panier.');
         }
         $cartItems = $cart ? $cart->getCartItems() : [];
 
@@ -44,7 +44,7 @@ final class CartController extends AbstractController
     {
         try {
             $this->cartService->addItemToCart($user, $product, $quantity);
-            $this->addFlash('success', "Le produit a été ajouté au panier.");
+            $this->addFlash('success', 'Le produit a été ajouté au panier.');
         } catch (\Exception $e) {
             $this->logger->error('Error while adding an item to the cart', ['exception' => $e]);
             $this->addFlash('error', "Une erreur est survenue lors de l'ajout du produit au panier.");
@@ -58,10 +58,10 @@ final class CartController extends AbstractController
     {
         try {
             $this->cartService->emptyCart($user);
-            $this->addFlash('success', "Le panier a été vidé.");
+            $this->addFlash('success', 'Le panier a été vidé.');
         } catch (\Exception $e) {
             $this->logger->error('Error while emptying the cart', ['exception' => $e]);
-            $this->addFlash('error', "Une erreur est survenue lors de la vidange du panier.");
+            $this->addFlash('error', 'Une erreur est survenue lors de la vidange du panier.');
         }
 
         return $this->redirectToRoute('app_cart');
@@ -72,10 +72,10 @@ final class CartController extends AbstractController
     {
         try {
             $this->cartService->checkout($user);
-            $this->addFlash('success', "La commande a été passée.");
+            $this->addFlash('success', 'La commande a été passée.');
         } catch (\Exception $e) {
             $this->logger->error('Error on checkout', ['exception' => $e]);
-            $this->addFlash('error', "Une erreur est survenue lors de la création de la commande.");
+            $this->addFlash('error', 'Une erreur est survenue lors de la création de la commande.');
         }
 
         return $this->redirectToRoute('app_cart');

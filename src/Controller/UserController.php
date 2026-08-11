@@ -15,8 +15,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_USER')]
 final class UserController extends AbstractController
 {
-    const API_ENABLED_MSG = "L'accès API a été activé, utilisez vos identifiants habituels pour vous y connecter, puis utilisez le jeton JWT pour vos requêtes.";
-    const API_DISABLED_MSG = "Attention! L'accès API a été désactivé, même si vous avez encore un jeton JWT valide, vous ne pourrez plus l'utiliser.";
+    public const API_ENABLED_MSG = "L'accès API a été activé, utilisez vos identifiants habituels pour vous y connecter, puis utilisez le jeton JWT pour vos requêtes.";
+    public const API_DISABLED_MSG = "Attention! L'accès API a été désactivé, même si vous avez encore un jeton JWT valide, vous ne pourrez plus l'utiliser.";
 
     public function __construct(
         private readonly LoggerInterface $logger,
@@ -49,8 +49,9 @@ final class UserController extends AbstractController
             $this->addFlash($flashType, $msgText);
         } catch (\Exception $e) {
             $this->addFlash('error', "Une erreur est survenue lors de la modification de l'accès API.");
-            $this->logger->error("Error while toggling API access", ['exception' => $e]);
+            $this->logger->error('Error while toggling API access', ['exception' => $e]);
         }
+
         return $this->redirectToRoute('app_profile');
     }
 }

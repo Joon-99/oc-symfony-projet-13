@@ -45,7 +45,7 @@ class CartItem extends BaseEntity
         $this->setProduct($product);
 
         $price = $product->getPrice();
-        if ($price === null) {
+        if (null === $price) {
             throw new \DomainException("Cannot add product {$product->getName()} to a cart: it has no price.");
         }
         $this->setPrice($price);
@@ -88,7 +88,7 @@ class CartItem extends BaseEntity
     }
 
     /**
-     * @return numeric-string 
+     * @return numeric-string
      */
     public function getPrice(): string
     {
@@ -96,7 +96,7 @@ class CartItem extends BaseEntity
     }
 
     /**
-     * @param numeric-string $price 
+     * @param numeric-string $price
      */
     public function setPrice(string $price): static
     {
@@ -110,6 +110,6 @@ class CartItem extends BaseEntity
      */
     public function getTotalPrice(): string
     {
-        return bcmul($this->price, (string)$this->quantity, 2);
+        return bcmul($this->price, (string) $this->quantity, 2);
     }
 }

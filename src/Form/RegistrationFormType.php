@@ -5,11 +5,11 @@ namespace App\Form;
 use App\Entity\User;
 use App\Validator\Constraints\AppPasswordConstraint;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
@@ -46,13 +46,13 @@ class RegistrationFormType extends AbstractType
                 'mapped' => false,
                 'constraints' => [
                     new AppPasswordConstraint(),
-                ]
+                ],
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'label' => "J'accepte les CGU de GreenGoodies",
                 'mapped' => false,
                 'constraints' => [
-                    new IsTrue(message: "Vous devez accepter les CGU pour vous inscrire."),
+                    new IsTrue(message: 'Vous devez accepter les CGU pour vous inscrire.'),
                 ],
             ])
         ;
@@ -64,7 +64,7 @@ class RegistrationFormType extends AbstractType
             'data_class' => User::class,
             'attr' => [
                 'class' => 'common-form',
-            ]
+            ],
         ]);
     }
 }

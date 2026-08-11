@@ -46,7 +46,7 @@ class Order extends BaseEntity
     {
         parent::__construct();
         $cart = $owner->getCart();
-        if ($cart === null) {
+        if (null === $cart) {
             throw new MissingCartException();
         }
         $cartItems = $cart->getCartItems();
@@ -56,7 +56,7 @@ class Order extends BaseEntity
         $this->setOwner($owner);
         $this->orderItems = new ArrayCollection();
         foreach ($cartItems as $cartItem) {
-            $orderItem = new OrderItem($this,  $cartItem);
+            $orderItem = new OrderItem($this, $cartItem);
             $this->addOrderItem($orderItem);
         }
         $this->totalAmount = $cart->getTotalPrice();

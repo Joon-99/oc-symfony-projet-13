@@ -48,9 +48,9 @@ final class LoginController extends AbstractController
 
     #[Route('/register', name: 'app_register')]
     public function register(Request $request,
-                            UserPasswordHasherInterface $userPasswordHasher,
-                            EntityManagerInterface $entityManager,
-                            Security $security): Response
+        UserPasswordHasherInterface $userPasswordHasher,
+        EntityManagerInterface $entityManager,
+        Security $security): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -67,18 +67,19 @@ final class LoginController extends AbstractController
             } catch (\Exception $e) {
                 $this->addFlash('error', "Une erreur est survenue lors de l'inscription. Veuillez réessayer plus tard.");
                 $this->logger->error('Error during user registration', ['exception' => $e]);
+
                 return $this->redirectToRoute('app_register');
             }
 
-            $this->addFlash('success', "Inscription réussie ! Vous êtes maintenant connecté.");
+            $this->addFlash('success', 'Inscription réussie ! Vous êtes maintenant connecté.');
 
             $security->login($user, 'form_login', 'main');
 
             return $this->redirectToRoute('app_home');
         }
+
         return $this->render('login/register.html.twig', [
             'registrationForm' => $form,
         ]);
     }
 }
-

@@ -108,8 +108,8 @@ class AppFixtures extends Fixture
             [
                 'name' => 'Nécessaire, déodorant Bio',
                 'short' => '50ml déodorant à l’eucalyptus',
-                'long' => "Déodorant Nécessaire, une formule révolutionnaire composée exclusivement d'ingrédients naturels pour une protection efficace et bienfaisante.\n\n" .
-                    "Chaque flacon de 50 ml renferme le secret d'une fraîcheur longue durée, sans compromettre votre bien-être ni l'environnement. Conçu avec soin, ce déodorant allie le pouvoir antibactérien des extraits de plantes aux vertus apaisantes des huiles essentielles, assurant une sensation de confort toute la journée.\n\n" .
+                'long' => "Déodorant Nécessaire, une formule révolutionnaire composée exclusivement d'ingrédients naturels pour une protection efficace et bienfaisante.\n\n".
+                    "Chaque flacon de 50 ml renferme le secret d'une fraîcheur longue durée, sans compromettre votre bien-être ni l'environnement. Conçu avec soin, ce déodorant allie le pouvoir antibactérien des extraits de plantes aux vertus apaisantes des huiles essentielles, assurant une sensation de confort toute la journée.\n\n".
                     "Grâce à sa formule non irritante et respectueuse de votre peau, Nécessaire offre une alternative saine aux déodorants conventionnels, tout en préservant l'équilibre naturel de votre corps.",
                 'picture' => 'images/products/deodorant-bio.jpg',
                 'price' => '8.50',
@@ -239,7 +239,7 @@ class AppFixtures extends Fixture
     private function createOrderForUser(ObjectManager $manager, User $user, array $products): void
     {
         $cart = $user->getCart();
-        if ($cart === null) {
+        if (null === $cart) {
             $cart = new Cart($user);
             $manager->persist($cart);
         }
@@ -268,7 +268,7 @@ class AppFixtures extends Fixture
 
     /**
      * @param non-empty-array<mixed> $items
-     * @param int<1, max> $count
+     * @param int<1, max>            $count
      *
      * @return list<int>
      */

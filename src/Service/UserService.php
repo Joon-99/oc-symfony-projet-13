@@ -12,8 +12,9 @@ final class UserService
     {
     }
 
-    /** 
+    /**
      * Toggles the API access for a user.
+     *
      * @throws \Exception
      */
     public function toggleApiAccess(User $user): void
@@ -21,5 +22,4 @@ final class UserService
         $user->setApiEnabled(!$user->isApiEnabled());
         $this->entityManager->flush();
     }
-
 }

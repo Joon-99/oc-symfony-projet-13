@@ -14,6 +14,7 @@ final class HomeController extends AbstractController
     public function home(ProductRepository $productRepository): Response
     {
         $products = $productRepository->findDemoProducts();
+
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
             'products' => $products,

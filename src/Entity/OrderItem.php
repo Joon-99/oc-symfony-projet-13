@@ -34,7 +34,7 @@ class OrderItem extends BaseEntity
         parent::__construct();
         $product = $cartItem->getProduct();
         $productId = $product->getId();
-        if ($productId === null) {
+        if (null === $productId) {
             throw new \DomainException("Cannot create an order item: product {$product->getName()} is not persisted.");
         }
         $this->purchaseOrder = $purchaseOrder;
@@ -58,7 +58,7 @@ class OrderItem extends BaseEntity
     {
         return $this->purchaseOrder;
     }
-    
+
     public function getProductName(): string
     {
         return $this->productName;
@@ -68,5 +68,4 @@ class OrderItem extends BaseEntity
     {
         return $this->productId;
     }
-
 }

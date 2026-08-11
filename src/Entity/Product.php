@@ -82,7 +82,7 @@ class Product extends BaseEntity
     }
 
     /**
-     * @param numeric-string $price 
+     * @param numeric-string $price
      */
     public function setPrice(string $price): static
     {

@@ -73,6 +73,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
      * A visual identifier that represents this user.
      *
      * @see UserInterface
+     *
      * @return non-empty-string
      */
     public function getUserIdentifier(): string

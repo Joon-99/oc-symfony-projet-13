@@ -27,7 +27,6 @@ class OrderRepository extends ServiceEntityRepository
         return $this->findBy(['owner' => $user], ['orderDate' => $order]);
     }
 
-
     //    /**
     //     * @return Order[] Returns an array of Order objects
     //     */
