@@ -10,7 +10,7 @@
         </div>
         <div class="product-view-info-container">
             <h1 class="product-view-name semi-bold-text text-xxl">{{ product.name }}</h1>
-            <p class="product-view-price thin-text text-3xl">{{ product.price | replace({"." : ","}) }}€</p>
+            <p class="product-view-price thin-text text-3xl">{{ product.price|replace({".": ","}) }}€</p>
             <p class="product-view-label text-xs grey-text">Description</p>
             <p class="product-view-long-description grey-text">{{ product.longDescription|nl2br }}</p>
             {{ csrf_form.post_action('app_cart_add', {'product': product.id}, 'Ajouter au panier', 'product-view-button cta-grey-button') }}
