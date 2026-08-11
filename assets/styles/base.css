@@ -297,12 +297,27 @@ button.cta-grey-button {
 .common-form .checkbox-container input[type='checkbox'] {
     appearance: none;
     -webkit-appearance: none;
+    position: relative;
     margin: 0;
     background-color: var(--ivory-color);
     height: 20px;
     width: 20px;
     border: 1px solid var(--grey-color);
     box-sizing: border-box;
+    cursor: pointer;
+}
+
+.common-form .checkbox-container input[type='checkbox']:checked::after {
+    background-color: var(--grey-color);
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    content: '';
+    /* moves corner to center of checkbox */
+    top: 50%;
+    left: 50%;
+    /* moves center of checkmark to center of checkbox */
+    transform: translate(-50%, -50%);
 }
 
 .common-form .checkbox-container input[type='checkbox'] + label {
