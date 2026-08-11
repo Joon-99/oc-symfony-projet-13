@@ -71,7 +71,7 @@ final class LoginController extends AbstractController
                 return $this->redirectToRoute('app_register');
             }
 
-            $this->addFlash('success', 'Inscription réussie ! Vous êtes maintenant connecté.');
+            $this->addFlash('success', 'Inscription réussie !');
 
             $security->login($user, 'form_login', 'main');
 
