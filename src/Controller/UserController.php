@@ -7,9 +7,11 @@ use App\Service\OrderService;
 use App\Service\UserService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Component\Security\Http\Attribute\IsCsrfTokenValid;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_USER')]
@@ -20,6 +22,7 @@ final class UserController extends AbstractController
 
     public function __construct(
         private readonly LoggerInterface $logger,
+        private readonly UserService $userService,
     ) {
     }
 
@@ -33,17 +36,26 @@ final class UserController extends AbstractController
     }
 
     #[Route('/profile/delete', name: 'app_user_delete', methods: ['POST'])]
-    public function delete(#[CurrentUser] User $user): Response
+    #[IsCsrfTokenValid('app_user_delete', tokenKey: '_csrf_token')]
+    public function delete(#[CurrentUser] User $user, Security $security): Response
     {
-        // Implement the logic to delete the user account here.
+        try {
+            $this->userService->deleteUserAccount($user);
+            $security->logout(false);
+            $this->addFlash('success', 'Votre compte a été supprimé avec succès.');
+        } catch (\Exception $e) {
+            $this->logger->error('Error while deleting user account', ['exception' => $e]);
+            $this->addFlash('error', 'Une erreur est survenue lors de la suppression de votre compte. Merci de nous contacter.');
+        }
         return $this->redirectToRoute('app_home');
     }
 
     #[Route('/profile/toggle-api', name: 'app_user_toggle_api', methods: ['POST'])]
-    public function toggleApiAccess(#[CurrentUser] User $user, UserService $userService): Response
+    #[IsCsrfTokenValid('app_user_toggle_api', tokenKey: '_csrf_token')]
+    public function toggleApiAccess(#[CurrentUser] User $user): Response
     {
         try {
-            $userService->toggleApiAccess($user);
+            $this->userService->toggleApiAccess($user);
             $flashType = $user->isApiEnabled() ? 'success' : 'warning';
             $msgText = $user->isApiEnabled() ? self::API_ENABLED_MSG : self::API_DISABLED_MSG;
             $this->addFlash($flashType, $msgText);

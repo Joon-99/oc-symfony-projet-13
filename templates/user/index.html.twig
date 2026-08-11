@@ -23,7 +23,8 @@
             {{ csrf.post_action('app_user_toggle_api', {}, api_action_text ~ ' mon accès API', 'user-api-toggle-btn cta-grey-button', api_onclick_text) }}
         </div>
         <div class="user-delete-account">
-            {{ csrf.post_action('app_user_delete', {}, 'Supprimer mon compte', 'user-delete-account-btn cta-grey-button') }}
+            {% set delete_onclick_text = "return confirm('Voulez-vous vraiment supprimer votre compte ? Cette action est irréversible.')" %}
+            {{ csrf.post_action('app_user_delete', {}, 'Supprimer mon compte', 'user-delete-account-btn cta-grey-button', delete_onclick_text) }}
         </div>
     </div>
 </section>

@@ -48,12 +48,14 @@ security:
 
         - { route: ^app_logout$, roles: ROLE_USER }
         - { route: ^app_profile$, roles: ROLE_USER }
+        - { route: ^app_user_delete$, roles: ROLE_USER }
+        - { route: ^app_user_toggle_api$, roles: ROLE_USER }
         - { route: ^app_cart$, roles: ROLE_USER }
         - { route: ^app_cart_add$, roles: ROLE_USER }
         - { route: ^app_cart_empty$, roles: ROLE_USER }
         - { route: ^app_cart_checkout$, roles: ROLE_USER }
 
-        - { path: ^/, roles: ROLE_ADMIN }
+        - { path: ^/, roles: ROLE_NOT_ALLOWED }
     
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER

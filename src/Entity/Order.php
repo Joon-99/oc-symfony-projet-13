@@ -21,8 +21,14 @@ class Order extends BaseEntity
     private readonly string $totalAmount;
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
-    #[ORM\JoinColumn(nullable: false)]
-    private User $owner;
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    private ?User $owner = null;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $archiveBuyerFirstName = null;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $archiveBuyerLastName = null;
 
     /**
      * @var Collection<int, OrderItem>
@@ -69,12 +75,12 @@ class Order extends BaseEntity
         return $this->totalAmount;
     }
 
-    public function getOwner(): User
+    public function getOwner(): ?User
     {
         return $this->owner;
     }
 
-    public function setOwner(User $owner): static
+    public function setOwner(?User $owner): static
     {
         $this->owner = $owner;
 
@@ -149,5 +155,29 @@ class Order extends BaseEntity
     public function getOrderReference(): string
     {
         return sprintf('ORD-%09d', $this->getId() ?? 0);
+    }
+
+    public function getArchiveBuyerLastName(): ?string
+    {
+        return $this->archiveBuyerLastName;
+    }
+
+    public function setArchiveBuyerLastName(?string $archiveBuyerLastName): static
+    {
+        $this->archiveBuyerLastName = $archiveBuyerLastName;
+
+        return $this;
+    }
+
+    public function getArchiveBuyerFirstName(): ?string
+    {
+        return $this->archiveBuyerFirstName;
+    }
+
+    public function setArchiveBuyerFirstName(?string $archiveBuyerFirstName): static
+    {
+        $this->archiveBuyerFirstName = $archiveBuyerFirstName;
+
+        return $this;
     }
 }

@@ -43,7 +43,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     /**
      * @var Collection<int, Order>
      */
-    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'owner', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'owner')]
     private Collection $orders;
 
     #[ORM\Column(nullable: false, options: ['default' => false])]
