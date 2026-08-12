@@ -3,20 +3,26 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Validator\Constraints\AppPasswordConstraint;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'users')]
+#[UniqueEntity(fields: ['email'], message: "Cet email est déjà utilisé.")]
 class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /** @var non-empty-string */
     #[ORM\Column(length: 255, nullable: false, unique: true)]
     #[NotBlank(message: "L'email est obligatoire.")]
+    #[Email(message: "L'email n'est pas valide.")]
     private string $email;
 
     /**
@@ -26,15 +32,19 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     private array $roles = [];
 
     /**
-     * @var string The hashed password
+     * @see AppPasswordConstraint
      */
     #[ORM\Column(length: 255, nullable: false)]
     private string $password;
 
     #[ORM\Column(length: 50, nullable: false)]
+    #[NotBlank(message: "Le prénom est obligatoire.")]
+    #[Length(max: 50, maxMessage: "Le prénom ne peut pas dépasser {{ limit }} caractères.")]
     private string $firstName;
 
     #[ORM\Column(length: 50, nullable: false)]
+    #[NotBlank(message: "Le nom est obligatoire.")]
+    #[Length(max: 50, maxMessage: "Le nom ne peut pas dépasser {{ limit }} caractères.")]
     private string $lastName;
 
     #[ORM\OneToOne(mappedBy: 'owner', cascade: ['persist', 'remove'], orphanRemoval: true)]
