@@ -451,6 +451,27 @@
     margin-bottom: 48px;
 }
 
+/* FORM ERRORS */
+/* form_errors() output: default form theme gives each error <li> an id ending in "_errorN" where N is the number of the error for that field */
+
+/* adjusts the browser's default ul indentation */
+.login-form-container ul:has(li[id*="_error"]),
+.register-form-container ul:has(li[id*="_error"]) {
+    margin: 0 0 8px 0;
+    padding-left: 13px;
+}
+
+.login-form-container li[id*="_error"],
+.register-form-container li[id*="_error"] {
+    color: var(--maroon-color);
+    font-size: 12px;
+    line-height: 120%;
+}
+
+.login-form-container li[id*="_error"]::marker,
+.register-form-container li[id*="_error"]::marker {
+    content: '\26A0\FE0E  '; /* danger sign forced to text presentation */
+}
 
 /* PROFILE */
 

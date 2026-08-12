@@ -11,6 +11,18 @@
     --stone-grey-color: #565656;
     --light-black-color: #333333;
     --black-color: #000000;
+    --forest-green-color: #135a36;
+    --honeydew-color: #e7f6ee;
+    --mint-color: #bfe7cf;
+    --maroon-color: #7f1d1d;
+    --blush-color: #fdecec;
+    --rose-color: #f5c2c2;
+    --amber-color: #7a4f01;
+    --vanilla-color: #fff6dd;
+    --wheat-color: #f0ddb0;
+    --navy-color: #0f4d73;
+    --frost-color: #e8f3fb;
+    --powder-blue-color: #bddcf0;
 }
 
 .content {
@@ -250,27 +262,27 @@ button.cta-grey-button {
 }
 
 .flash-success {
-    color: #135a36;
-    background-color: #e7f6ee;
-    border-color: #bfe7cf;
+    color: var(--forest-green-color);
+    background-color: var(--honeydew-color);
+    border-color: var(--mint-color);
 }
 
 .flash-error {
-    color: #7f1d1d;
-    background-color: #fdecec;
-    border-color: #f5c2c2;
+    color: var(--maroon-color);
+    background-color: var(--blush-color);
+    border-color: var(--rose-color);
 }
 
 .flash-warning {
-    color: #7a4f01;
-    background-color: #fff6dd;
-    border-color: #f0ddb0;
+    color: var(--amber-color);
+    background-color: var(--vanilla-color);
+    border-color: var(--wheat-color);
 }
 
 .flash-info {
-    color: #0f4d73;
-    background-color: #e8f3fb;
-    border-color: #bddcf0;
+    color: var(--navy-color);
+    background-color: var(--frost-color);
+    border-color: var(--powder-blue-color);
 }
 
 .common-form {
