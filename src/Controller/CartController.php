@@ -6,9 +6,11 @@ use App\Entity\Product;
 use App\Entity\User;
 use App\Exception\InsufficientStockException;
 use App\Exception\ProductNotPublishedException;
+use App\Form\AddToCartType;
 use App\Service\CartService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
@@ -42,11 +44,25 @@ final class CartController extends AbstractController
     }
 
     #[Route('/cart/add/{product}', name: 'app_cart_add', methods: ['POST'])]
-    public function add(Product $product, #[CurrentUser] User $user, int $quantity = 1): Response
+    public function add(Product $product, #[CurrentUser] User $user, Request $request): Response
     {
+        $form = $this->createForm(AddToCartType::class, options: ['max_quantity' => $product->getNbStock() ?? 0]);
+        $form->handleRequest($request);
+
+        if (!$form->isSubmitted() || !$form->isValid()) {
+            $this->addFlash('error', 'La quantité renseignée est invalide.');
+
+            return $this->redirectToRoute('app_home', ['product' => $product->getId()]);
+        }
+
+        /** @var array{quantity: int} $data */
+        $data = $form->getData();
+        $quantity = $data['quantity'];
+
         try {
-            $this->cartService->addItemToCart($user, $product, $quantity);
-            $this->addFlash('success', 'Le produit a été ajouté au panier.');
+            $this->cartService->setItemQuantity($user, $product, $quantity);
+            $errMsg = 0 === $quantity ? 'Le produit a été retiré du panier.' : 'Le panier a été mis à jour.';
+            $this->addFlash('success', $errMsg);
         } catch (InsufficientStockException $e) {
             $this->logger->warning('Insufficient stock while adding product to cart', ['exception' => $e]);
             $this->addFlash('error', "Stock insuffisant pour le produit : {$e->getMessage()}");
@@ -58,7 +74,7 @@ final class CartController extends AbstractController
             $this->addFlash('error', "Une erreur est survenue lors de l'ajout du produit au panier.");
         }
 
-        return $this->redirectToRoute('app_cart');
+        return $this->redirectToRoute('app_home');
     }
 
     #[Route('/cart/empty', name: 'app_cart_empty', methods: ['POST'])]

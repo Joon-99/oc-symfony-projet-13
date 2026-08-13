@@ -44,27 +44,42 @@ final class CartService
     }
 
     /**
-     * Add an item to the user's cart. If the item already exists in the cart, increase its quantity.
+     * Set the quantity of a product in the user's cart. A quantity of 0 removes the item from the cart.
      *
      * @throws ProductNotPublishedException
      * @throws InsufficientStockException
+     * @throws \InvalidArgumentException
      * @throws \Exception
      */
-    public function addItemToCart(User $user, Product $product, int $quantity = 1): void
+    public function setItemQuantity(User $user, Product $product, int $quantity): void
     {
+        if ($quantity < 0) {
+            throw new \InvalidArgumentException('Quantity cannot be negative.');
+        }
+
+        $cart = $this->getOrCreateCart($user);
+        $cartItem = $this->cartItemRepo->findFromCartByProduct($cart, $product);
+
+        if (0 === $quantity) {
+            if ($cartItem) {
+                $cart->removeCartItem($cartItem);
+                $this->entityManager->remove($cartItem);
+                $this->entityManager->flush();
+            }
+
+            return;
+        }
+
         if (!$product->isPublished()) {
             throw new ProductNotPublishedException();
         }
-        $cart = $this->getOrCreateCart($user);
-        $cartItem = $this->cartItemRepo->findFromCartByProduct($cart, $product);
-        $requestedQuantity = ($cartItem?->getQuantity() ?? 0) + $quantity;
 
-        if ($requestedQuantity > ($product->getNbStock() ?? 0)) {
-            throw new InsufficientStockException($product->getName(), $product->getNbStock() ?? 0, $requestedQuantity);
+        if ($quantity > ($product->getNbStock() ?? 0)) {
+            throw new InsufficientStockException($product->getName(), $product->getNbStock() ?? 0, $quantity);
         }
 
         if ($cartItem) {
-            $cartItem->setQuantity($requestedQuantity);
+            $cartItem->setQuantity($quantity);
         } else {
             $cartItem = new CartItem($cart, $quantity, $product);
             $cart->addCartItem($cartItem);
@@ -131,5 +146,15 @@ final class CartService
 
             return $order;
         });
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function getProductInCart(User $user, Product $product): ?CartItem
+    {
+        $cart = $this->getOrCreateCart($user);
+
+        return $this->cartItemRepo->findFromCartByProduct($cart, $product);
     }
 }

@@ -1,5 +1,6 @@
+{# @var product \App\Entity\Product #}
+{# @var cartItem \App\Entity\CartItem|null #}
 {% extends 'base.html.twig' %}
-{% import '_macros/csrf_form.html.twig' as csrf_form %}
 
 {% block title %}Product - {{ product.name }}{% endblock %}
 
@@ -13,7 +14,15 @@
             <p class="product-view-price thin-text text-3xl">{{ product.price|replace({".": ","}) }}€</p>
             <p class="product-view-label text-xs grey-text">Description</p>
             <p class="product-view-long-description grey-text">{{ product.longDescription|nl2br }}</p>
-            {{ csrf_form.post_action('app_cart_add', {'product': product.id}, 'Ajouter au panier', 'product-view-button cta-grey-button') }}
+            {{ form_start(addToCartForm, {'attr': {'class': 'product-view-form contents-form'}}) }}
+                <div class="product-view-quantity-field">
+                    {{ form_label(addToCartForm.quantity, null, {'label_attr': {'class': 'product-view-quantity-label text-xs grey-text'}}) }}
+                    {{ form_errors(addToCartForm.quantity) }}
+                    {{ form_widget(addToCartForm.quantity, {'attr': {'class': 'product-view-quantity-input text-sm'}}) }}
+                </div>
+                {% set buttonTxt = cartItem ? 'Mettre à jour le panier' : 'Ajouter au panier' %}
+                <button type="submit" class="product-view-button cta-grey-button">{{ buttonTxt }}</button>
+            {{ form_end(addToCartForm) }}
         </div>
     </section>
 {% endblock %}

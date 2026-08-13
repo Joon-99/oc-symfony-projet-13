@@ -21,7 +21,7 @@ class ProductRepository extends ServiceEntityRepository
      */
     public function findDemoProducts(): array
     {
-        return $this->findBy(['isPublished' => true], limit: 9);
+        return $this->findBy(['isPublished' => true], ['id' => 'ASC'], 9);
     }
 
     //    /**
