@@ -15,7 +15,7 @@
                 </p>
             </div>
         </div>
-        <div class="duo-box-right welcome-image-container">
+        <div class="duo-box-right welcome-image-container" style="background-image: url('{{ asset('images/less-new-less-co2.jpg') | imagine_filter('compress') }}')">
         </div>
     </section>
     <section class="products-section">
@@ -36,12 +36,12 @@
         <div class="third-box-placeholder">
         </div>
         <div class="conviction-image-container">
-            <img src="{{ asset('images/orange-flowers.jpg') }}" alt="Orange flowers">
+            <img src="{{ asset('images/orange-flowers.jpg') | imagine_filter('compress') }}" alt="Orange flowers">
         </div>
     </section>
     <section class="values-section split-thirds">
         <div class="values-image-container">
-            <img src="{{ asset('images/green-plastic-bags.jpg') }}" alt="Green plastic bags">
+            <img src="{{ asset('images/green-plastic-bags.jpg') | imagine_filter('compress') }}" alt="Green plastic bags">
         </div>
         <div class="third-box-placeholder">
         </div>

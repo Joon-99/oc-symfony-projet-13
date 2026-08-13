@@ -5,7 +5,7 @@
 {% block content %}
     <section class="register-section">
         <div class="register-image-container">
-            <img src="{{ asset('images/dark-green-leaves.jpg') }}" alt="Dark Green Leaves">
+            <img src="{{ asset('images/dark-green-leaves.jpg') | imagine_filter('compress') }}" alt="Dark Green Leaves">
         </div>
         <div class="register-form-container">
             <h2 class="semi-bold-text text-xxl">Inscription</h2>

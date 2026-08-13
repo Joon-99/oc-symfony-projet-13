@@ -1,6 +1,6 @@
 <div class="item-card">
     <div class="item-card-image-container">
-        <img src="{{ asset(item.product.picturePath) }}" alt="Picture of {{ item.product.name }}">
+        <img src="{{ asset(item.product.picturePath) | imagine_filter('compress') }}" alt="Picture of {{ item.product.name }}">
     </div>
     <div class="item-card-info-container">
         <h3 class="item-card-name bold-text black-text">{{ item.product.name }}</h3>

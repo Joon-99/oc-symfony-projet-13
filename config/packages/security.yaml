@@ -46,6 +46,8 @@ security:
         - { route: ^app_home$, roles: PUBLIC_ACCESS }
         - { route: ^app_product$, roles: PUBLIC_ACCESS }
 
+        - { path: ^/media/cache, roles: PUBLIC_ACCESS }
+
         - { route: ^app_logout$, roles: ROLE_USER }
         - { route: ^app_profile$, roles: ROLE_USER }
         - { route: ^app_user_delete$, roles: ROLE_USER }

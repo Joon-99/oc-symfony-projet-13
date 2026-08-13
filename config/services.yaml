@@ -21,3 +21,12 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    # renames generated cache files to match the filter's real output format (e.g. .jpg -> .webp)
+    liip_imagine.cache.resolver.format_extension:
+        class: Liip\ImagineBundle\Imagine\Cache\Resolver\FormatExtensionResolver
+        arguments:
+            - '@liip_imagine.cache.resolver.default'
+            - '@liip_imagine.filter.configuration'
+        tags:
+            - { name: 'liip_imagine.cache.resolver', resolver: 'format_extension' }

@@ -6,7 +6,7 @@
 {% block content %}
     <section class="product-view-section">
         <div class="product-view-image-container">
-            <img src="{{ asset(product.picturePath) }}" alt="Picture of {{ product.name }}">
+            <img src="{{ asset(product.picturePath) | imagine_filter('compress') }}" alt="Picture of {{ product.name }}">
         </div>
         <div class="product-view-info-container">
             <h1 class="product-view-name semi-bold-text text-xxl">{{ product.name }}</h1>
