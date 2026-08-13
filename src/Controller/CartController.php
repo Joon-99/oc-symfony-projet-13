@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Entity\User;
+use App\Exception\InsufficientStockException;
+use App\Exception\ProductNotPublishedException;
 use App\Service\CartService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -45,6 +47,12 @@ final class CartController extends AbstractController
         try {
             $this->cartService->addItemToCart($user, $product, $quantity);
             $this->addFlash('success', 'Le produit a été ajouté au panier.');
+        } catch (InsufficientStockException $e) {
+            $this->logger->warning('Insufficient stock while adding product to cart', ['exception' => $e]);
+            $this->addFlash('error', "Stock insuffisant pour le produit : {$e->getMessage()}");
+        } catch (ProductNotPublishedException $e) {
+            $this->logger->warning('Attempted to add unpublished product to cart', ['exception' => $e]);
+            $this->addFlash('error', "Le produit n'est pas disponible.");
         } catch (\Exception $e) {
             $this->logger->error('Error while adding an item to the cart', ['exception' => $e]);
             $this->addFlash('error', "Une erreur est survenue lors de l'ajout du produit au panier.");
@@ -73,6 +81,12 @@ final class CartController extends AbstractController
         try {
             $this->cartService->checkout($user);
             $this->addFlash('success', 'La commande a été passée.');
+        } catch (InsufficientStockException $e) {
+            $this->logger->warning('Insufficient stock during checkout', ['exception' => $e]);
+            $this->addFlash('error', "Stock insuffisant pour le produit : {$e->getMessage()}");
+        } catch (ProductNotPublishedException $e) {
+            $this->logger->error('Product not published during checkout', ['exception' => $e]);
+            $this->addFlash('error', "Le produit n'est pas disponible.");
         } catch (\Exception $e) {
             $this->logger->error('Error on checkout', ['exception' => $e]);
             $this->addFlash('error', 'Une erreur est survenue lors de la création de la commande.');

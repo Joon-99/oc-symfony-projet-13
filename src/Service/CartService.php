@@ -8,9 +8,11 @@ use App\Entity\Order;
 use App\Entity\Product;
 use App\Entity\User;
 use App\Exception\EmptyCartException;
+use App\Exception\InsufficientStockException;
 use App\Exception\MissingCartException;
 use App\Exception\ProductNotPublishedException;
 use App\Repository\CartItemRepository;
+use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManagerInterface;
 
 final class CartService
@@ -45,6 +47,7 @@ final class CartService
      * Add an item to the user's cart. If the item already exists in the cart, increase its quantity.
      *
      * @throws ProductNotPublishedException
+     * @throws InsufficientStockException
      * @throws \Exception
      */
     public function addItemToCart(User $user, Product $product, int $quantity = 1): void
@@ -54,9 +57,14 @@ final class CartService
         }
         $cart = $this->getOrCreateCart($user);
         $cartItem = $this->cartItemRepo->findFromCartByProduct($cart, $product);
+        $requestedQuantity = ($cartItem?->getQuantity() ?? 0) + $quantity;
+
+        if ($requestedQuantity > ($product->getNbStock() ?? 0)) {
+            throw new InsufficientStockException($product->getName(), $product->getNbStock() ?? 0, $requestedQuantity);
+        }
 
         if ($cartItem) {
-            $cartItem->setQuantity($cartItem->getQuantity() + $quantity);
+            $cartItem->setQuantity($requestedQuantity);
         } else {
             $cartItem = new CartItem($cart, $quantity, $product);
             $cart->addCartItem($cartItem);
@@ -81,23 +89,47 @@ final class CartService
     }
 
     /**
-     * Place an order from the user's cart. The cart is only emptied once the order has been persisted.
+     * Place an order from the user's cart.
      *
      * @throws EmptyCartException
+     * @throws InsufficientStockException
      * @throws MissingCartException
      * @throws \Exception
      */
     public function checkout(User $user): Order
     {
-        // TODO: check stock
-        $order = new Order($user);
+        return $this->entityManager->wrapInTransaction(function () use ($user): Order {
+            $cart = $this->getOrCreateCart($user);
 
-        $this->entityManager->wrapInTransaction(function () use ($order, $user): void {
+            // sorts $cartItems in a fixed order across all checkouts so two concurrent
+            // transactions locking the same products can never deadlock on each other (avoids scenarios like
+            // checkout 1 locking product B and waiting for product A to unlock while
+            // checkout 2 locking product A and waiting for product B to unlock).
+            $cartItems = $cart->getCartItems()->toArray();
+            usort($cartItems, static fn (CartItem $a, CartItem $b): int => $a->getProduct()->getId() <=> $b->getProduct()->getId());
+
+            // Row-lock and re-check each product's stock inside the transaction: it may have
+            // changed since the item was added to the cart
+            foreach ($cartItems as $cartItem) {
+                $product = $this->entityManager->find(Product::class, $cartItem->getProduct()->getId(), LockMode::PESSIMISTIC_WRITE);
+                if (!$product?->isPublished()) {
+                    throw new ProductNotPublishedException();
+                }
+                $nbAvailable = $product->getNbStock() ?? 0;
+
+                if ($nbAvailable < $cartItem->getQuantity()) {
+                    throw new InsufficientStockException($cartItem->getProduct()->getName(), $nbAvailable, $cartItem->getQuantity());
+                }
+
+                $product->setNbStock($nbAvailable - $cartItem->getQuantity());
+            }
+
+            $order = new Order($user);
             $this->entityManager->persist($order);
             $this->entityManager->flush();
             $this->emptyCart($user);
-        });
 
-        return $order;
+            return $order;
+        });
     }
 }
