@@ -18,4 +18,5 @@ return [
     Jawira\DoctrineDiagramBundle\DoctrineDiagramBundle::class => ['dev' => true, 'test' => true],
     Liip\ImagineBundle\LiipImagineBundle::class => ['all' => true],
     Sensiolabs\MinifyBundle\SensiolabsMinifyBundle::class => ['all' => true],
+    Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle::class => ['all' => true],
 ];

@@ -16,6 +16,22 @@ security:
             # Ensure dev tools and static assets are always allowed
             pattern: ^/(_profiler|_wdt|assets|build)/
             security: false
+
+        login:
+            pattern: ^/api/login
+            stateless: true
+            user_checker: App\Security\ApiUserChecker
+            json_login:
+                check_path: /api/login
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+        
+        api:
+            pattern: ^/api
+            stateless: true
+            user_checker: App\Security\ApiUserChecker
+            jwt: ~
+
         main:
             lazy: true
             provider: app_user_provider
@@ -41,6 +57,11 @@ security:
 
     # Note: Only the *first* matching rule is applied
     access_control:
+        # api routes
+        - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        - { route: ^app_api_products$, roles: ROLE_USER }
+
+        # web routes
         - { route: ^app_login$, roles: PUBLIC_ACCESS }
         - { route: ^app_register$, roles: PUBLIC_ACCESS }
         - { route: ^app_home$, roles: PUBLIC_ACCESS }
@@ -56,6 +77,7 @@ security:
         - { route: ^app_cart_add$, roles: ROLE_USER }
         - { route: ^app_cart_empty$, roles: ROLE_USER }
         - { route: ^app_cart_checkout$, roles: ROLE_USER }
+
 
         - { path: ^/, roles: ROLE_NOT_ALLOWED }
     

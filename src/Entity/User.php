@@ -92,6 +92,14 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     }
 
     /**
+     * required by LexikJWTAuthenticationBundle
+     */
+    public function getUsername(): string
+    {
+        return $this->getUserIdentifier();
+    }
+
+    /**
      * @see UserInterface
      */
     public function getRoles(): array

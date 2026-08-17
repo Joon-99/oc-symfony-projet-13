@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\MappedSuperclass]
 #[ORM\HasLifecycleCallbacks]
@@ -12,6 +13,7 @@ abstract class BaseEntity
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['api'])]
     private ?int $id = null;
 
     #[ORM\Column]
