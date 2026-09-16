@@ -17,6 +17,7 @@ security:
             pattern: ^/(_profiler|_wdt|assets|build)/
             security: false
 
+        # Public API login endpoint: authenticate with email/password and receive a JWT.
         login:
             pattern: ^/api/login
             stateless: true
@@ -57,11 +58,12 @@ security:
 
     # Note: Only the *first* matching rule is applied
     access_control:
-        # api routes
+        # API routes: public login, but all authenticated API access requires a valid JWT.
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
         - { route: ^app_api_products$, roles: ROLE_USER }
 
-        # web routes
+        # Web routes: the app is intentionally public at home/register/login,
+        # while all account and purchase flows require an authenticated user.
         - { route: ^app_login$, roles: PUBLIC_ACCESS }
         - { route: ^app_register$, roles: PUBLIC_ACCESS }
         - { route: ^app_home$, roles: PUBLIC_ACCESS }
@@ -78,7 +80,7 @@ security:
         - { route: ^app_cart_empty$, roles: ROLE_USER }
         - { route: ^app_cart_checkout$, roles: ROLE_USER }
 
-
+        # denies everything else
         - { path: ^/, roles: ROLE_NOT_ALLOWED }
     
     role_hierarchy:

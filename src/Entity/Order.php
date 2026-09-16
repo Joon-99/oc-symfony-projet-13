@@ -48,6 +48,9 @@ class Order extends BaseEntity
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $deliveryDate = null;
 
+    /**
+     * Creates the order as a snapshot of the cart and its items
+     */
     public function __construct(User $owner, ?\DateTimeImmutable $orderDate = null)
     {
         parent::__construct();

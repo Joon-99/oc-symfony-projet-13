@@ -25,8 +25,11 @@ final class UserService
     }
 
     /**
-     * Deletes a user account and all associated data. Past orders are kept for accounting/history but
-     * detached from the user, with the buyer's name archived onto the order.
+     * Deletes a user account and all associated data.
+     *
+     * Business rule: keep the order history for accounting, but remove the live user link.
+     * The order keeps a copy of the buyer's name so it still identifies who bought it after
+     * the account is deleted.
      *
      * @throws \Exception
      */
