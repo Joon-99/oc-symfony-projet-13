@@ -38,7 +38,7 @@ else
     echo "JWT keys already exist. Leaving them unchanged."
 fi
 
-docker compose --env-file "$PROJECT_DIR/.env.local" up -d
+docker compose --env-file "$PROJECT_DIR/.env.local" up -d --wait
 
 php bin/console doctrine:migrations:migrate --no-interaction
 
