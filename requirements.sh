@@ -56,7 +56,7 @@ echo
 check_command composer
 check_command docker
 check_command docker-compose || true
-
+check_command symfony
 
 if php -i 2>/dev/null | grep -q 'PDO support => enabled'; then
     print_status "PDO" "OK"

@@ -27,6 +27,8 @@ else
 fi
 
 
+composer install --no-interaction
+
 if [[ ! -f "$PROJECT_DIR/config/jwt/private.pem" || ! -f "$PROJECT_DIR/config/jwt/public.pem" ]]; then
     mkdir -p "$PROJECT_DIR/config/jwt"
     cd "$PROJECT_DIR"
@@ -35,8 +37,6 @@ if [[ ! -f "$PROJECT_DIR/config/jwt/private.pem" || ! -f "$PROJECT_DIR/config/jw
 else
     echo "JWT keys already exist. Leaving them unchanged."
 fi
-
-composer install
 
 docker compose --env-file "$PROJECT_DIR/.env.local" up -d
 
